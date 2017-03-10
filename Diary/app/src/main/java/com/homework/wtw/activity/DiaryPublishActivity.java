@@ -1,0 +1,474 @@
+package com.homework.wtw.activity;
+
+/**
+ * Created by ts on 2017/3/8.
+ */
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import android.annotation.SuppressLint;
+import android.app.AlertDialog;
+import android.app.ProgressDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.os.Bundle;
+import android.os.Environment;
+import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
+import android.util.Log;
+import android.view.Gravity;
+import android.view.KeyEvent;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.EditText;
+import android.widget.GridView;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.Spinner;
+import android.widget.TextView;
+import android.widget.Toast;
+
+
+import com.homework.wtw.adapter.DiaryPublishAdapter;
+import com.homework.wtw.diary.R;
+import com.homework.wtw.model.Diary;
+import com.homework.wtw.model.DiaryMessage;
+import com.homework.wtw.util.Constant;
+import com.homework.wtw.util.PictureUtil;
+import com.homework.wtw.util.TimeUtil;
+
+import org.json.JSONArray;
+
+
+import me.iwf.photopicker.PhotoPicker;
+import me.iwf.photopicker.PhotoPreview;
+
+public class DiaryPublishActivity extends BaseActivity2 {
+//    private static final int PHOTO_REQUEST_TAKEPHOTO = 1;// 拍照
+//    private static final int PHOTO_REQUEST_GALLERY = 2;// 从相册中选择
+    private static final int REQUEST_CAMERA_CODE = 10;
+    private static final int REQUEST_PREVIEW_CODE = 20;
+    private static String[] spinnerString = new String[]{"生活","工作","学习"};
+    String filename = Environment.getExternalStorageDirectory().toString() + File.separator + "wtw/image/";
+    Map<String, String> params = new HashMap<String, String>();
+    private String TAG = "DiaryPublishActivity";
+    private String imagePath = null;
+    private GridView gridview;
+    private LinearLayout ll_location; //获取城市和天气
+    private DiaryPublishAdapter adapter;
+    // 显示位置的TextView。定位布局哦吼吼～～～～～～～
+    private TextView tv_location;
+    private String mylocation;
+    // 发送按钮
+    private LinearLayout container;
+    private ImageView mImageView;
+    private TextView mSendMsgTextView;
+    private Toolbar toolbar;
+    // 文本输入
+    private EditText et_content;
+    //选择方向
+    private Spinner spinner;
+    private ArrayAdapter<String> spinnerAdapter;
+    private String spinnerValue;
+    private int tagID = 0;
+    private int type = 0;
+    private ProgressDialog dialog;
+    private Intent intent;
+    private ArrayList<String> paths = new ArrayList<String>();
+    private ProgressDialog mProgressDialog;
+
+//    private int flag;//0-拍照，1-相册选择，2-文字
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_diary_publish);
+
+//        container = (LinearLayout) findViewById(R.id.container);
+//        initSystemBar(container);
+
+        toolbar = initToolBar("");
+        mImageView = new ImageView(this);//右上角！！！！！！！
+        mImageView.setVisibility(View.VISIBLE);
+        initMenu(toolbar);
+//        diariesList = new ArrayList<>();
+        initView();
+
+//        getTags();
+
+    }
+
+    private void initView() {
+        gridview = (GridView) this.findViewById(R.id.gridview);
+
+        Constant.publishImagePaths = new ArrayList<>();
+
+        gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                if (Constant.publishImagePaths.size() < 9 && position == Constant.publishImagePaths.size()) {
+                    PhotoPicker.builder()
+                            .setPhotoCount(9)
+                            .setShowCamera(true)
+                            .setShowGif(true)
+                            .setPreviewEnabled(false)
+                            .setSelected(Constant.publishImagePaths)
+                            .start(DiaryPublishActivity.this, REQUEST_CAMERA_CODE);
+                } else {
+                    PhotoPreview.builder()
+                            .setPhotos(Constant.publishImagePaths)
+                            .setCurrentItem(position)
+                            .start(DiaryPublishActivity.this, REQUEST_PREVIEW_CODE);
+                }
+
+            }
+        });
+
+        adapter = new DiaryPublishAdapter(DiaryPublishActivity.this, Constant.publishImagePaths);
+        gridview.setAdapter(adapter);
+
+
+        // 获取位置
+        //以下是定位的布局哦吼吼～～～～～
+        tv_location = (TextView) this.findViewById(R.id.text_diary_publish_get_city);
+        ll_location = (LinearLayout) this.findViewById(R.id.linear_diary_publish_get_city);
+
+        ll_location.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+//                InitLocation();
+                //在这里定位，获取天气！！！获取成功后，把tv_location文字换成城市名+当前气温
+                showToast("Start Locating");
+
+                tv_location.setText("正在定位。。。");
+            }
+        });
+
+        et_content = (EditText) this.findViewById(R.id.et_content);
+
+        spinner = (Spinner) findViewById(R.id.spinner);
+        spinnerAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, spinnerString);
+        //设置下拉列表的风格
+        spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        //将spinnerAdapter 添加到spinner中
+        spinner.setAdapter(spinnerAdapter);
+
+
+        //添加事件Spinner事件监听
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                spinnerValue = spinnerString[position];
+                Log.i(TAG,"spinner=="+spinnerValue+"//position="+position);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        //设置默认值
+        spinner.setVisibility(View.VISIBLE);
+
+    }
+
+
+    @SuppressLint("SdCardPath")
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (resultCode == RESULT_OK) {
+            switch (requestCode) {
+                // 选择照片
+                case REQUEST_CAMERA_CODE:
+                    ArrayList<String> list = data.getStringArrayListExtra(PhotoPicker.KEY_SELECTED_PHOTOS);
+                    Log.d(TAG, "list: " + "list = [" + list.size());
+                    loadAdpater(list);
+                    break;
+                // 预览
+                case REQUEST_PREVIEW_CODE:
+                    ArrayList<String> ListExtra = data.getStringArrayListExtra(PhotoPicker.KEY_SELECTED_PHOTOS);
+                    Log.d(TAG, "ListExtra: " + "ListExtra = [" + ListExtra.size());
+                    loadAdpater(ListExtra);
+                    break;
+                default:
+                    break;
+
+            }
+            adapter.notifyDataSetChanged();
+        }
+    }
+
+    private void loadAdpater(ArrayList<String> paths) {
+        if (Constant.publishImagePaths != null && Constant.publishImagePaths.size() > 0) {
+            Constant.publishImagePaths.clear();
+        }
+        Constant.publishImagePaths.addAll(paths);
+        adapter = new DiaryPublishAdapter(DiaryPublishActivity.this, Constant.publishImagePaths);
+        gridview.setAdapter(adapter);
+        try {
+            JSONArray obj = new JSONArray(Constant.publishImagePaths);
+            Log.e(TAG, obj.toString());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+    }
+
+    @Override
+    protected void onDestroy() {
+        // TODO Auto-generated method stub
+        super.onDestroy();
+        if (dialog != null && dialog.isShowing()) {
+            dialog.dismiss();
+        }
+    }
+
+    private void initMenu(Toolbar toolbar) {
+
+        mSendMsgTextView = new TextView(this);
+        mSendMsgTextView.setText("写好了");
+        mSendMsgTextView.setTextColor(getResources().getColor(R.color.white));
+        mSendMsgTextView.setTextSize(18);
+        mSendMsgTextView.setPadding(0, 0, 30, 0);
+        mSendMsgTextView.setGravity(Gravity.RIGHT);
+
+        Toolbar.LayoutParams params = new Toolbar.LayoutParams(
+                Toolbar.LayoutParams.WRAP_CONTENT,
+                Toolbar.LayoutParams.WRAP_CONTENT,
+                Gravity.RIGHT);
+        //设置外边界
+        params.setMargins(0, 0, 15, 0);
+        toolbar.addView(mSendMsgTextView, params);
+
+        mSendMsgTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //发送
+                String content = et_content.getText().toString().trim();
+                //图片文件列表
+                List<File> fileList = new ArrayList<File>();
+                Constant.tempPublishImages = new ArrayList<String>();
+
+                if (TextUtils.isEmpty(content)) {//不能没有文字
+                    Toast.makeText(getApplicationContext(), "请输入文字内容....", Toast.LENGTH_SHORT).show();
+                    return;
+                } else {
+                    mProgressDialog = ProgressDialog.show(DiaryPublishActivity.this, null, "加载中，请稍后……");
+                    if (Constant.publishImagePaths.size() == 0) {//有文字没有图片
+                        type = 1;//仅文字
+                    } else {//有文字也有图片
+                        type = 2;//图文
+
+                        //压缩图片
+                        for (int i = 0; i < Constant.publishImagePaths.size(); i++) {
+                            String imageUrl = Constant.publishImagePaths.get(i);
+                            String imageName_temp = imageUrl.substring(imageUrl.lastIndexOf("/") + 1);
+                            String fileName = filename + String.valueOf("small_" + imageName_temp);
+                            File file = new File(fileName);
+                            Constant.tempPublishImages.add(fileName);
+                            if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
+                                if (!file.getParentFile().exists()) {
+                                    file.getParentFile().mkdirs();
+                                }
+                            }
+                            // 生成小图
+                            PictureUtil.save(imageUrl, 200, fileName);
+
+//                            save(imageUrl, 60, "small_" + imageName_temp);
+
+                            fileList.add(file);
+                        }
+                    }
+
+                    //点了一次发送之后就别点了啊啊啊，要不然一下子发出去好多条一样的怎么办！
+                    mSendMsgTextView.setFocusable(false);
+                    mSendMsgTextView.setClickable(false);
+                    setTopic(type, content, fileList, spinnerValue, "北京市", "20", 0);
+
+                }
+            }
+        });
+
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                exitDialog();
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    protected void exitDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(DiaryPublishActivity.this);
+        builder.setMessage("当前退出是不会保存草稿的哟～");
+        builder.setTitle("你确定要退出编辑吗？");
+        builder.setPositiveButton("确认", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+
+                DiaryPublishActivity.this.finish();
+            }
+        });
+        builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        builder.create().show();
+    }
+
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0) {
+            exitDialog();
+        }
+        return false;
+    }
+
+/*
+
+    private void setTopic(int type, String content, List<File> fileList, int tagID, String tag, double longitudes, double latitudes) {
+        RequestQueue requestQueue = Constant.queue;
+
+        String httpurl = Constant.MY_UTL + "huati/add";
+
+        params.put("user_id", String.valueOf(User.getInstance().getUser_id()));
+        params.put("type", String.valueOf(type));
+        params.put("content", content);
+        params.put("tag", String.valueOf(tagID));
+        params.put("longitudes", String.valueOf(Constant.locationLongitude));
+        params.put("latitudes", String.valueOf(Constant.locationLatitude));
+
+        final String myContent = content;
+        String tempTag = tag;
+        if (tagID == 0) {//没选方向
+            tempTag = "";
+        }
+        final String myTag = tempTag;
+
+
+        MultipartRequest request = new MultipartRequest(httpurl, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Toast.makeText(getApplicationContext(), "上传成功啦～", Toast.LENGTH_SHORT).show();
+                Log.i(TAG, "success,response = " + response);
+
+                try {
+                    JSONObject myJsonObject = new JSONObject(response);
+                    JSONObject jo = myJsonObject.getJSONObject("phone_topic");
+                    String pictures = jo.getString("picture");
+                    int topicID = jo.getInt("phone_topic_id");
+//                    Log.i(TAG,"ResponsePicure==="+pictures);
+                    //那个返回的数据基本什么都有了哈哈哈
+                    Gson gson = new Gson();
+                    Topic topic = gson.fromJson(jo.toString(), Topic.class);
+
+                    //添加空的评论和喜欢列表，不然会空指针的哟哟哟～～～
+                    ArrayList<TopicMessage> topicMessages = new ArrayList<>();
+                    topic.setTopicMessagesList(topicMessages);
+
+                    ArrayList<TopicLike> topicLikes = new ArrayList<>();
+                    topic.setTopicLikesList(topicLikes);
+
+                    //返回数据里没有用户名和头像。
+                    topic.setUser_name(User.getInstance().getUser_name());
+                    topic.setUser_portrait(User.getInstance().getPortrait());
+                    //也没有标签内容。唉.
+                    topic.setTag_content(myTag);
+                    topic.setTag_id(Integer.parseInt(topic.getTag()));
+
+//                    Topic topic = new Topic(topicID, User.getInstance().getUser_name(),User.getInstance().getPortrait(),myContent,myTag,TopicTimeUtil.getNowTime(),pictures);
+                    allTopicsList.add(0, topic);
+
+//                    TopicTimeFragment.topicAdapter.notifyDataSetChanged();
+                    //清空本地暂存的小图文件
+                    for (int i = 0; i < Constant.tempPublishImages.size(); i++) {
+                        File tempFile = new File(Constant.tempPublishImages.get(i));
+                        PictureUtil.deleteFile(tempFile);
+                    }
+                    Constant.tempPublishImages.clear();
+                    Constant.publishImagePaths.clear();
+
+                    //既然已经发出去了。那就让发送按钮可以点吧。行吧。
+                    mSendMsgTextView.setFocusable(true);
+                    mSendMsgTextView.setClickable(true);
+
+                    Constant.isNewOfTopic = true;
+
+                    finish();
+
+                    mProgressDialog.dismiss();
+
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                mProgressDialog.dismiss();
+                Toast.makeText(getApplicationContext(), "上传失败啦>_< 一会再试试～ ", Toast.LENGTH_SHORT).show();
+                Log.i(TAG, "error,response = " + error.getMessage());
+            }
+        }, "picture", fileList, params);
+
+        requestQueue.add(request);
+
+    }
+*/
+
+    private void setTopic(int type, String content, List<File> fileList, String tag, String address, String whether, int whetherImage) {
+
+        int maxID = Constant.diariesList.get(Constant.diariesList.size()-1).getDiary_id();
+//        int maxID = Constant.diariesList.size();
+        String pictures = Constant.imagePathAli;
+
+        ArrayList<DiaryMessage> diaryMessages = new ArrayList<>();
+        Diary diary = new Diary(maxID+1, content,tag, TimeUtil.getCurrentTime(),pictures, address, whether, whetherImage, diaryMessages, 1, TimeUtil.getCurrentDay());
+        Constant.diariesList.add(0, diary);
+
+        DiaryListActivity.diaryAdapter.notifyDataSetChanged();
+
+        //清空本地暂存的小图文件
+        for (int i = 0; i < Constant.tempPublishImages.size(); i++) {
+            File tempFile = new File(Constant.tempPublishImages.get(i));
+            PictureUtil.deleteFile(tempFile);
+        }
+        Constant.tempPublishImages.clear();
+        Constant.publishImagePaths.clear();
+
+        //既然已经发出去了。那就让发送按钮可以点吧。行吧。
+        mSendMsgTextView.setFocusable(true);
+        mSendMsgTextView.setClickable(true);
+
+        finish();
+
+        mProgressDialog.dismiss();
+    }
+}

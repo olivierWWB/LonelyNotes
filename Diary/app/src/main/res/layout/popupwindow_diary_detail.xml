@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"    android:layout_height="wrap_content"
+
+    android:orientation="vertical" >
+
+    <!-- 这里的linearLayout加android:background=""这个属性要谨慎，如果加了后，popwindow是不能半透明了的 -->
+    <!--<View-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="0.3dp"-->
+    <!--android:background="@color/Grey" />-->
+    <!--<Button-->
+    <!--android:id="@+id/popupwindow_btn1"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:textSize="18dp"-->
+    <!--android:background="@android:color/white" />-->
+    <!--<View-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="0.3dp"-->
+    <!--android:background="@color/Grey" />-->
+    <!--<Button-->
+    <!--android:id="@+id/popupwindow_btn2"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:textSize="18dp"-->
+    <!--android:background="@android:color/white" />-->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.3dp"
+        android:background="@color/Grey" />
+
+    <Button
+        android:id="@+id/popupwindow_btn3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/button_white_selector"
+        android:textColor="@color/red"
+        android:textSize="18dp"
+        android:text="删除"/>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.3dp"
+        android:background="@color/Grey" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:background="@color/item_gray" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.3dp"
+        android:background="@color/Grey" />
+    <Button
+        android:id="@+id/topic_cancel_add"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/button_white_selector"
+        android:textSize="18dp"
+        android:text="取消"/>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.3dp"
+        android:background="@color/Grey" />
+
+</LinearLayout>
