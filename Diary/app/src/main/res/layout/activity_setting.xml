@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/container"
+    android:background="@color/main_backgroud"
+    android:orientation="vertical" >
+
+    <include layout="@layout/actionbar"/>
+
+    <TextView
+        android:id="@+id/textview_setting_change_psw"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:text="修改密码" />
+
+    <TextView
+        android:id="@+id/textview_setting_about_us"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:text="关于我们" />
+
+</LinearLayout>

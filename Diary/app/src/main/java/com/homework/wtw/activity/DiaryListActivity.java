@@ -65,7 +65,7 @@ public class DiaryListActivity extends BaseActivity implements AbsListView.OnScr
     private long mLastTime;
     private long mCurTime;
 
-    private ImageView mImageView;
+    private ImageView mImageView, mImageView2;
     private TextView mAddTextView;
 
     @Override
@@ -76,9 +76,13 @@ public class DiaryListActivity extends BaseActivity implements AbsListView.OnScr
 //        container = (LinearLayout) findViewById(R.id.container);
 //        initSystemBar(container);
 //
-        toolbar = initMainToolBar2("Lonely Diary~");
+//        toolbar = initMainToolBar();
+        toolbar = initMainToolBar2("");
         mImageView = new ImageView(this);//右上角！！！！！！！
         mImageView.setVisibility(View.VISIBLE);
+
+        mImageView2 = new ImageView(this);//左上角！！！！！！！
+        mImageView2.setVisibility(View.VISIBLE);
         initMenu(toolbar);
 
         //双击toolbar回到列表顶端
@@ -279,6 +283,25 @@ public class DiaryListActivity extends BaseActivity implements AbsListView.OnScr
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(DiaryListActivity.this, DiaryPublishActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        mImageView2.setImageResource(R.drawable.ic_setting);
+        mImageView2.setVisibility(View.VISIBLE);
+
+        Toolbar.LayoutParams params2 = new Toolbar.LayoutParams(
+                80,
+                60,
+                Gravity.LEFT);
+        //设置外边界
+        params.setMargins(3, 3, 5, 3);
+        toolbar.addView(mImageView2, params2);
+
+        mImageView2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(DiaryListActivity.this, SettingActivity.class);
                 startActivity(intent);
             }
         });

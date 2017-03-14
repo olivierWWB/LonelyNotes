@@ -105,8 +105,9 @@ public class BaseActivity extends ActionBarActivity {
     /**
      * 初始化Toolbar
      */
-    protected Toolbar initMyToolBar(){//ts写的啊哈哈。她是为了用在话题详情页哦吼吼～～～
+    protected Toolbar initMyToolBar(String title){//ts写的啊哈哈。她是为了用在话题详情页哦吼吼～～～
         Toolbar toolbar = (Toolbar) findViewById(R.id.my_awesome_toolbar);
+        toolbar.setTitle(title);
         setSupportActionBar(toolbar);
         toolbar.setNavigationIcon(R.mipmap.ic_back);
         toolbar.setTitleTextColor(getResources().getColor(R.color.white));
