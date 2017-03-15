@@ -34,13 +34,15 @@ public class Utils {
 	
 	public final static String KEY_URL = "URL";
 	public final static String URL_H5LOCATION = "file:///android_asset/location.html";
-	public static String cityName;
 	public synchronized static String getCity(AMapLocation location){
 		if(null == location) {
 			return null;
 		}
 		if(location.getErrorCode() == 0){
-			return location.getCity();
+			if (location.getProvince().equals(location.getCity()))
+				return location.getCity();
+			else
+				return location.getProvince()+location.getCity();
 		} else {
 			//定位失败
 			return null;

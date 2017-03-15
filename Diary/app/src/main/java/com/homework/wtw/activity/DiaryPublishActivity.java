@@ -155,7 +155,7 @@ public class DiaryPublishActivity extends BaseActivity2 {
                 mylocation = Utils.getCity(loc);
                 tv_location.setText(mylocation);
             } else {
-                Utils.cityName = "";
+                tv_location.setText("");
             }
         }
     };
