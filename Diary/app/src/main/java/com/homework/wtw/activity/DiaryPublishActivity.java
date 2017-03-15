@@ -49,6 +49,7 @@ import com.homework.wtw.util.TimeUtil;
 import com.homework.wtw.util.Utils;
 
 import org.json.JSONArray;
+import com.google.gson.*;
 
 
 import me.iwf.photopicker.PhotoPicker;
@@ -152,7 +153,9 @@ public class DiaryPublishActivity extends BaseActivity2 {
         public void onLocationChanged(AMapLocation loc) {
             if (null != loc) {
                 //解析定位结果
-                mylocation = Utils.getCity(loc);
+                mylocation = Utils.getCity(loc, 0);
+                String weathercity = Utils.getCity(loc, 1);
+                Gson gson = new Gson();
                 tv_location.setText(mylocation);
             } else {
                 tv_location.setText("");
