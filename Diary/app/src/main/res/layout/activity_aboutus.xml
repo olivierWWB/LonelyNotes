@@ -20,6 +20,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:gravity="center"
+        android:textSize="18dp"
         android:text="孤独日记——一个人的朋友圈" />
 
     <View
@@ -32,25 +33,29 @@
         android:id="@+id/about_us_textview01"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="15dp"
-        android:lineSpacingExtra="2dp"
-        android:lineSpacingMultiplier="1.3" />
+        android:layout_marginTop="50dp"
+        android:textSize="16dp"
+        android:gravity="center"
+        android:text="ts 16126202"/>
 
     <TextView
         android:id="@+id/about_us_textview02"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="15dp"
-        android:lineSpacingExtra="2dp"
-        android:lineSpacingMultiplier="1.3" />
+        android:layout_marginTop="10dp"
+        android:textSize="16dp"
+        android:gravity="center"
+        android:text="wwb 16126214"/>
 
-    <ListView
-        android:id="@+id/lv"
-        android:layout_width="fill_parent"
+    <TextView
+        android:id="@+id/about_us_textview03"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:visibility="gone" >
-    </ListView>
+        android:layout_marginTop="10dp"
+        android:textSize="16dp"
+        android:gravity="center"
+        android:text="wyl 16126222"/>
+
     <TextView
         android:id="@+id/text_version_code"
         android:layout_width="match_parent"
@@ -58,6 +63,7 @@
         android:textColor="@color/text_gray"
         android:gravity="bottom|center_horizontal"
         android:layout_margin="15dp"
-        android:layout_gravity="bottom"/>
+        android:layout_gravity="bottom"
+        android:text="copyright ©2017 wtw"/>
 
 </LinearLayout>

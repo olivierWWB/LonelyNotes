@@ -25,9 +25,9 @@ public class Diary {
     private int user_message;
     private String address;
     private String whether;
-    private int whetherImage;
     private double latitudes;
     private double longitudes;
+    private int whether_image;
 
 
     public Diary(int diary_id, String content, String tag, String create_time, String picture,  String address, String whether, int whetherImage, ArrayList<DiaryMessage> diaryMessages){
@@ -40,7 +40,7 @@ public class Diary {
         this.whether = whether;
         this.diaryMessagesList = diaryMessages;
     }
-    public Diary(int diary_id, String content, String tag, String create_time, String picture,  String address, String whether, int whetherImage, ArrayList<DiaryMessage> diaryMessages, int is_active, String day){
+    public Diary(int diary_id, String content, String tag, String create_time, String picture,  String address, String whether, int whether_image, ArrayList<DiaryMessage> diaryMessages, int is_active, String day){
         this.diary_id = diary_id;
         this.content = content;
         this.tag_content = tag;
@@ -50,7 +50,7 @@ public class Diary {
         this.whether = whether;
         this.diaryMessagesList = diaryMessages;
         this.is_active = is_active;
-        this.whetherImage = whetherImage;
+        this.whether_image = whether_image;
         this.day = day;
     }
 
@@ -155,14 +155,6 @@ public class Diary {
         this.diary_id = diary_id;
     }
 
-    public int getWhetherImage() {
-        return whetherImage;
-    }
-
-    public void setWhetherImage(int whetherImage) {
-        this.whetherImage = whetherImage;
-    }
-
     public int getIs_active() {
         return is_active;
     }
@@ -177,6 +169,14 @@ public class Diary {
 
     public void setDay(String day) {
         this.day = day;
+    }
+
+    public int getWhether_image() {
+        return whether_image;
+    }
+
+    public void setWhether_image(int whether_image) {
+        this.whether_image = whether_image;
     }
 }
 
