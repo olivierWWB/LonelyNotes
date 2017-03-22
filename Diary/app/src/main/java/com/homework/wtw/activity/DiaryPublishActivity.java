@@ -34,6 +34,8 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.thinkpage.lib.api.*;
+
 
 import com.amap.api.location.AMapLocation;
 import com.amap.api.location.AMapLocationClient;
@@ -88,16 +90,51 @@ public class DiaryPublishActivity extends BaseActivity2 {
     private Intent intent;
     private ArrayList<String> paths = new ArrayList<String>();
     private ProgressDialog mProgressDialog;
+    static String weather = "";
+
+    TPWeatherManager weatherManager = TPWeatherManager.sharedWeatherManager();
+//使用心知天气官网获取的key和用户id初始化WeatherManager
     // 高德定位
     private AMapLocationClient locationClient = null;
     private AMapLocationClientOption locationOption = new AMapLocationClientOption();
+    /**
+     * 定位监听
+     */
+    AMapLocationListener locationListener = new AMapLocationListener() {
+        @Override
+        public void onLocationChanged(AMapLocation loc) {
+            if (null != loc) {
+                //解析定位结果
+                mylocation = Utils.getCity(loc, 0);
+                String weathercity = Utils.getCity(loc, 1);
 
-//    private int flag;//0-拍照，1-相册选择，2-文字
+                weatherManager.getWeatherNow(new TPCity(weathercity)
+                        , TPWeatherManager.TPWeatherReportLanguage.kSimplifiedChinese
+                        , TPWeatherManager.TPTemperatureUnit.kCelsius
+                        , new TPListeners.TPWeatherNowListener() {
+                            @Override
+                            public void onTPWeatherNowAvailable(TPWeatherNow weatherNow, String errorInfo) {
+                                if (weatherNow != null) {
+                                    //weatherNow 就是返回的当前天气信息。
+                                    weather = weatherNow.text;
+                                    tv_location.setText(mylocation + "    今日天气：" + weather);
+                                } else {
+                                    weather = "";//错误信息
 
+                                    tv_location.setText(mylocation + "    今日天气：" + weather);
+                                }
+                            }});
+            } else {
+                tv_location.setText("");
+            }
+        }
+    };
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_diary_publish);//初始化定位
+        weatherManager.initWithKeyAndUserId("stgqeqzd7smkfdzn","U831694032");
+
         initLocation();
 
 //        container = (LinearLayout) findViewById(R.id.container);
@@ -113,6 +150,7 @@ public class DiaryPublishActivity extends BaseActivity2 {
 //        getTags();
 
     }
+
     /**
      * 初始化定位
      *
@@ -129,7 +167,7 @@ public class DiaryPublishActivity extends BaseActivity2 {
      * 默认的定位参数
      *
      */
-    private AMapLocationClientOption getDefaultOption(){
+    private AMapLocationClientOption getDefaultOption() {
         AMapLocationClientOption mOption = new AMapLocationClientOption();
         mOption.setLocationMode(AMapLocationClientOption.AMapLocationMode.Hight_Accuracy);//可选，设置定位模式，可选的模式有高精度、仅设备、仅网络。默认为高精度模式
         mOption.setGpsFirst(false);//可选，设置是否gps优先，只在高精度模式下有效。默认关闭
@@ -144,25 +182,6 @@ public class DiaryPublishActivity extends BaseActivity2 {
         mOption.setLocationCacheEnable(true); //可选，设置是否使用缓存定位，默认为true
         return mOption;
     }
-
-    /**
-     * 定位监听
-     */
-    AMapLocationListener locationListener = new AMapLocationListener() {
-        @Override
-        public void onLocationChanged(AMapLocation loc) {
-            if (null != loc) {
-                //解析定位结果
-                mylocation = Utils.getCity(loc, 0);
-                String weathercity = Utils.getCity(loc, 1);
-                Gson gson = new Gson();
-                tv_location.setText(mylocation);
-            } else {
-                tv_location.setText("");
-            }
-        }
-    };
-
     private void initView() {
         gridview = (GridView) this.findViewById(R.id.gridview);
 
