@@ -208,8 +208,8 @@ public class DiaryAdapter extends BaseAdapter {
             viewHolder.textAddress.setText("在梦里");
         }
 //        if(diariesList.get(position).getWhetherImage() != null) {// 天气的小图标！！！！！！！！！
-            String whetherImageName = "whether"+diariesList.get(position).getWhetherImage();
-            viewHolder.whetherImage.setImageDrawable(context.getResources().getDrawable(mImageViewResourceId[diariesList.get(position).getWhetherImage()]));
+            String whetherImageName = "whether"+diariesList.get(position).getWhether_image();
+            viewHolder.whetherImage.setImageDrawable(context.getResources().getDrawable(mImageViewResourceId[diariesList.get(position).getWhether_image()]));
 //        }else{
 //            viewHolder.whetherImage.setImageDrawable(context.getResources().getDrawable(mImageViewResourceId[0]));
 //        }

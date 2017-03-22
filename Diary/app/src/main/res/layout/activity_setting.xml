@@ -3,25 +3,44 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/container"
-    android:background="@color/main_backgroud"
+    android:background="@color/item_gray"
     android:orientation="vertical" >
 
     <include layout="@layout/actionbar"/>
 
-    <TextView
-        android:id="@+id/textview_setting_change_psw"
+    <LinearLayout
+        android:id="@+id/linear_setting_change_psw"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:gravity="center"
-        android:text="修改密码" />
+        android:layout_height="40dp"
+        android:background="@color/white"
+        android:layout_marginTop="20dp">
 
-    <TextView
-        android:id="@+id/textview_setting_about_us"
+        <TextView
+            android:id="@+id/textview_setting_change_psw"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:gravity="center|center_vertical"
+            android:textSize="18dp"
+            android:text="修改密码" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linear_setting_about_us"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:gravity="center"
-        android:text="关于我们" />
+        android:layout_height="40dp"
+        android:background="@color/white"
+        android:layout_marginTop="20dp"
+        >
+
+        <TextView
+            android:id="@+id/textview_setting_about_us"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:gravity="center"
+            android:textSize="18dp"
+            android:text="关于我们" />
+    </LinearLayout>
 
 </LinearLayout>

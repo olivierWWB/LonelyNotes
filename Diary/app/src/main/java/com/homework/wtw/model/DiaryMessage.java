@@ -9,7 +9,7 @@ import android.os.Parcelable;
 public class DiaryMessage implements Parcelable {
     private int diary_message_id;//对话题评论的ID
     private int is_active; //-1-已经删除。1-没删除
-    private int diary_id;//该话题ID
+    private int source_diary_id;//该日记ID
     private String content;
     private String create_time;
 
@@ -93,11 +93,11 @@ public class DiaryMessage implements Parcelable {
         this.create_time = create_time;
     }
 
-    public int getDiary_id() {
-        return diary_id;
+    public int getSource_diary_id() {
+        return source_diary_id;
     }
 
-    public void setDiary_id(int diary_id) {
-        this.diary_id = diary_id;
+    public void setSource_diary_id(int source_diary_id) {
+        this.source_diary_id = source_diary_id;
     }
 }

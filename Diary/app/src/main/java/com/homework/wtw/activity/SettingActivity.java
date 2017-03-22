@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.homework.wtw.diary.R;
@@ -16,7 +17,7 @@ import com.homework.wtw.diary.R;
 public class SettingActivity extends BaseActivity{
 
     private Toolbar toolbar;
-    private TextView changePswText, aboutUsText;
+    LinearLayout layoutChangePsw, layoutAboutUs;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,17 +29,17 @@ public class SettingActivity extends BaseActivity{
 
         toolbar = initMyToolBar("设置");
 
-        changePswText = (TextView)findViewById(R.id.textview_setting_change_psw);
-        aboutUsText = (TextView)findViewById(R.id.textview_setting_about_us);
+        layoutChangePsw = (LinearLayout)findViewById(R.id.linear_setting_change_psw);
+        layoutAboutUs = (LinearLayout)findViewById(R.id.linear_setting_about_us);
 
-        changePswText.setOnClickListener(new View.OnClickListener() {
+        layoutChangePsw.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 showToast("去修改密码啊！");
             }
         });
 
-        aboutUsText.setOnClickListener(new View.OnClickListener() {
+        layoutAboutUs.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(SettingActivity.this, AboutUsActivity.class);
