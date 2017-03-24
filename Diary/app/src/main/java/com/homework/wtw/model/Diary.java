@@ -25,8 +25,6 @@ public class Diary {
     private int user_message;
     private String address;
     private String whether;
-    private double latitudes;
-    private double longitudes;
     private int whether_image;
 
 
@@ -61,22 +59,6 @@ public class Diary {
 
     public void setPicture(String picture) {
         this.picture = picture;
-    }
-
-    public double getLatitudes() {
-        return latitudes;
-    }
-
-    public void setLatitudes(double latitudes) {
-        this.latitudes = latitudes;
-    }
-
-    public double getLongitudes() {
-        return longitudes;
-    }
-
-    public void setLongitudes(double longitudes) {
-        this.longitudes = longitudes;
     }
 
     public String getContent() {
