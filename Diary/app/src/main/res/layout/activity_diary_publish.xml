@@ -112,6 +112,21 @@
             android:textSize="15dp"
             android:textColor="@color/black"
             android:text="获取城市和天气" />
+        <ImageView
+            android:id="@+id/text_diary_publish_get_weather_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:gravity="center_vertical"/>
+        <ImageView
+            android:id="@+id/text_diary_publish_get_temperature"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_marginLeft="5dp"
+            android:gravity="center_vertical"
+            android:textSize="15dp"
+            android:textColor="@color/black"/>
+
 
 
         <TextView

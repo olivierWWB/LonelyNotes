@@ -72,6 +72,8 @@ public class DiaryPublishActivity extends BaseActivity2 {
     private DiaryPublishAdapter adapter;
     // 显示位置的TextView。定位布局哦吼吼～～～～～～～
     private TextView tv_location;
+    private ImageView iv_weather;
+    private TextView tv_temperature;
     private String mylocation;
     // 发送按钮
     private LinearLayout container;
@@ -91,6 +93,7 @@ public class DiaryPublishActivity extends BaseActivity2 {
     private ArrayList<String> paths = new ArrayList<String>();
     private ProgressDialog mProgressDialog;
     static String weather = "";
+    static int temperature = 0;
 
     TPWeatherManager weatherManager = TPWeatherManager.sharedWeatherManager();
 //使用心知天气官网获取的key和用户id初始化WeatherManager
@@ -116,7 +119,7 @@ public class DiaryPublishActivity extends BaseActivity2 {
                             public void onTPWeatherNowAvailable(TPWeatherNow weatherNow, String errorInfo) {
                                 if (weatherNow != null) {
                                     //weatherNow 就是返回的当前天气信息。
-                                    weather = weatherNow.text;
+                                    temperature = weatherNow.temperature;
                                     tv_location.setText(mylocation + "    今日天气：" + weather);
                                     stopLocation();
                                 } else {
