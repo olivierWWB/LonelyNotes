@@ -108,7 +108,7 @@ public class DiaryPublishActivity extends BaseActivity2 {
                 mylocation = Utils.getCity(loc, 0);
                 String weathercity = Utils.getCity(loc, 1);
 
-                weatherManager.getWeatherNow(new TPCity(weathercity)
+                weatherManager.getWeatherNow(new TPCity(mylocation)
                         , TPWeatherManager.TPWeatherReportLanguage.kSimplifiedChinese
                         , TPWeatherManager.TPTemperatureUnit.kCelsius
                         , new TPListeners.TPWeatherNowListener() {
@@ -118,10 +118,12 @@ public class DiaryPublishActivity extends BaseActivity2 {
                                     //weatherNow 就是返回的当前天气信息。
                                     weather = weatherNow.text;
                                     tv_location.setText(mylocation + "    今日天气：" + weather);
+                                    stopLocation();
                                 } else {
                                     weather = "";//错误信息
 
                                     tv_location.setText(mylocation + "    今日天气：" + weather);
+                                    stopLocation();
                                 }
                             }});
             } else {
@@ -254,7 +256,6 @@ public class DiaryPublishActivity extends BaseActivity2 {
 
         //设置默认值
         spinner.setVisibility(View.VISIBLE);
-        stopLocation();
 
     }
     /**
