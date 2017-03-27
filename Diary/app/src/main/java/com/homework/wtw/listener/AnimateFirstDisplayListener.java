@@ -15,10 +15,6 @@ import java.util.List;
 import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 
-
-/**
- * Created by zhaoyunhai on 15/8/28.
- */
 public class AnimateFirstDisplayListener extends SimpleImageLoadingListener {
 
     public static final List<String> displayedImages = Collections.synchronizedList(new LinkedList<String>());

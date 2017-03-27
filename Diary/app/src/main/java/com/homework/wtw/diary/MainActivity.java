@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import com.homework.wtw.activity.DiaryListActivity;
-import com.homework.wtw.activity.TestPhotoPicker;
 import com.homework.wtw.model.Diary;
 import com.homework.wtw.model.DiaryMessage;
 import com.homework.wtw.util.Constant;
@@ -27,8 +26,6 @@ public class MainActivity extends AppCompatActivity {
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-//                Intent intent = new Intent(MainActivity.this, TestPhotoPicker.class);
                 Intent intent = new Intent(MainActivity.this, DiaryListActivity.class);
                 startActivity(intent);
             }
