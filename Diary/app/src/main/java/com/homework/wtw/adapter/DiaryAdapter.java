@@ -47,8 +47,6 @@ public class DiaryAdapter extends BaseAdapter {
     private ImageLoadingListener animateFirstListener = new AnimateFirstDisplayListener();
     private LayoutInflater inflater;
 
-    int[] mImageViewResourceId = {R.drawable.weather0};
-
     public DiaryAdapter(Context context, List<Diary> list) {
         this.context = context;
 //        for(int i=0; i<list.size(); i++){
@@ -209,7 +207,7 @@ public class DiaryAdapter extends BaseAdapter {
         }
 //        if(diariesList.get(position).getWhetherImage() != null) {// 天气的小图标！！！！！！！！！
             String whetherImageName = "whether"+diariesList.get(position).getWhether_image();
-            viewHolder.whetherImage.setImageDrawable(context.getResources().getDrawable(mImageViewResourceId[diariesList.get(position).getWhether_image()]));
+            viewHolder.whetherImage.setImageDrawable(context.getResources().getDrawable(Constant.mImageViewResourceId[diariesList.get(position).getWhether_image()]));
 //        }else{
 //            viewHolder.whetherImage.setImageDrawable(context.getResources().getDrawable(mImageViewResourceId[0]));
 //        }
