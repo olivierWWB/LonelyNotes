@@ -47,7 +47,7 @@ public class DiaryAdapter extends BaseAdapter {
     private ImageLoadingListener animateFirstListener = new AnimateFirstDisplayListener();
     private LayoutInflater inflater;
 
-    int[] mImageViewResourceId = {R.drawable.whether0};
+    int[] mImageViewResourceId = {R.drawable.weather0};
 
     public DiaryAdapter(Context context, List<Diary> list) {
         this.context = context;

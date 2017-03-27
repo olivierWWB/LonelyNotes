@@ -99,7 +99,7 @@
                                 android:layout_height="20dp"
                                 android:layout_marginLeft="30dp"
                                 android:layout_toRightOf="@id/textView_diary_detail_date"
-                                android:background="@drawable/whether0"
+                                android:background="@drawable/weather0"
                                 android:scaleType="centerCrop" />
 
                             <TextView

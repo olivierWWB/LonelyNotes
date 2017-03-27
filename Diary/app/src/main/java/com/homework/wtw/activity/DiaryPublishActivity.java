@@ -51,7 +51,6 @@ import com.homework.wtw.util.TimeUtil;
 import com.homework.wtw.util.Utils;
 
 import org.json.JSONArray;
-import com.google.gson.*;
 
 
 import me.iwf.photopicker.PhotoPicker;
@@ -111,7 +110,7 @@ public class DiaryPublishActivity extends BaseActivity2 {
                 mylocation = Utils.getCity(loc, 0);
                 String weathercity = Utils.getCity(loc, 1);
 
-                weatherManager.getWeatherNow(new TPCity(mylocation)
+                weatherManager.getWeatherNow(new TPCity("北京市")
                         , TPWeatherManager.TPWeatherReportLanguage.kSimplifiedChinese
                         , TPWeatherManager.TPTemperatureUnit.kCelsius
                         , new TPListeners.TPWeatherNowListener() {
@@ -120,12 +119,13 @@ public class DiaryPublishActivity extends BaseActivity2 {
                                 if (weatherNow != null) {
                                     //weatherNow 就是返回的当前天气信息。
                                     temperature = weatherNow.temperature;
-                                    tv_location.setText(mylocation + "    今日天气：" + weather);
+                                    tv_location.setText(mylocation);
+                                    iv_weather.setImageResource(Constant.mImageViewResourceId[Integer.valueOf(weatherNow.code)]);
+                                    tv_temperature.setText(temperature+"℃");
                                     stopLocation();
                                 } else {
                                     weather = "";//错误信息
-
-                                    tv_location.setText(mylocation + "    今日天气：" + weather);
+                                    tv_location.setText(mylocation);
                                     stopLocation();
                                 }
                             }});
@@ -220,6 +220,8 @@ public class DiaryPublishActivity extends BaseActivity2 {
         // 获取位置
         //以下是定位的布局哦吼吼～～～～～
         tv_location = (TextView) this.findViewById(R.id.text_diary_publish_get_city);
+        tv_temperature = (TextView) this.findViewById(R.id.text_diary_publish_get_temperature);
+        iv_weather = (ImageView) this.findViewById(R.id.text_diary_publish_get_weather_image);
         ll_location = (LinearLayout) this.findViewById(R.id.linear_diary_publish_get_city);
 
         ll_location.setOnClickListener(new View.OnClickListener() {
