@@ -14,7 +14,6 @@ public class Diary {
         return diaryMessagesList;
     }
 
-    private int is_active; //-1-已经删除。1-没删除
     private String picture;
     private String content;
     private String create_time;
@@ -38,7 +37,7 @@ public class Diary {
         this.whether = whether;
         this.diaryMessagesList = diaryMessages;
     }
-    public Diary(int diary_id, String content, String tag, String create_time, String picture,  String address, String whether, int whether_image, ArrayList<DiaryMessage> diaryMessages, int is_active, String day){
+    public Diary(int diary_id, String content, String tag, String create_time, String picture,  String address, String whether, int whether_image, ArrayList<DiaryMessage> diaryMessages,  String day){
         this.diary_id = diary_id;
         this.content = content;
         this.tag_content = tag;
@@ -47,7 +46,6 @@ public class Diary {
         this.address = address;
         this.whether = whether;
         this.diaryMessagesList = diaryMessages;
-        this.is_active = is_active;
         this.whether_image = whether_image;
         this.day = day;
     }
@@ -135,14 +133,6 @@ public class Diary {
 
     public void setDiary_id(int diary_id) {
         this.diary_id = diary_id;
-    }
-
-    public int getIs_active() {
-        return is_active;
-    }
-
-    public void setIs_active(int is_active) {
-        this.is_active = is_active;
     }
 
     public String getDay() {
