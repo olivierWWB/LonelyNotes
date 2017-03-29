@@ -254,7 +254,7 @@ public class DiaryListActivity extends BaseActivity implements AbsListView.OnScr
                 diaryMessages.add(diaryMessage);
             }
 
-            Diary diary = new Diary(i+1,"这个可以写好多好多好多好多好多好多好多好多好多好多好多好多字","生活","2017-03-06 01:01:01","picture","黑龙江省牡丹江市","20",0, diaryMessages, 1, "星期二");
+            Diary diary = new Diary(i+1,"这个可以写好多好多好多好多好多好多好多好多好多好多好多好多字","生活","2017-03-06 01:01:01","picture","黑龙江省牡丹江市","20",0, diaryMessages, "星期二");
             Constant.diariesList.add(diary);
         }
 

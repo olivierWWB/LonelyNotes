@@ -565,7 +565,7 @@ public class DiaryPublishActivity extends BaseActivity2 {
         String pictures = Constant.imagePathAli;
 
         ArrayList<DiaryMessage> diaryMessages = new ArrayList<>();
-        Diary diary = new Diary(maxID+1, content,tag, TimeUtil.getCurrentTime(),pictures, address, whether, whetherImage, diaryMessages, 1, TimeUtil.getCurrentDay());
+        Diary diary = new Diary(maxID+1, content,tag, TimeUtil.getCurrentTime(),pictures, address, whether, whetherImage, diaryMessages, TimeUtil.getCurrentDay());
         Constant.diariesList.add(0, diary);
 
         DiaryListActivity.diaryAdapter.notifyDataSetChanged();
