@@ -5,6 +5,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+
+import com.google.gson.Gson;
 import com.homework.wtw.activity.DiaryListActivity;
 import com.homework.wtw.model.Diary;
 import com.homework.wtw.model.DiaryMessage;

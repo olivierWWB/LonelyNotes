@@ -23,12 +23,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 import java.util.ArrayList;
 import com.homework.wtw.adapter.DiaryAdapter;
+import com.homework.wtw.diary.DiaryApplication;
 import com.homework.wtw.diary.R;
 
 import com.homework.wtw.model.Diary;
 import com.homework.wtw.model.DiaryMessage;
 import com.homework.wtw.util.Constant;
 import com.homework.wtw.view.ProgressWheel;
+import com.squareup.leakcanary.RefWatcher;
 
 
 /**
@@ -197,6 +199,12 @@ public class DiaryListActivity extends BaseActivity implements AbsListView.OnScr
         super.onPause();
     }
 
+
+    @Override public void onDestroy() {
+        super.onDestroy();
+        RefWatcher refWatcher = DiaryApplication.getRefWatcher(this);
+        refWatcher.watch(this);
+    }
 
     private void loadMoreData() { //加载更多数据
 //        if(flag == 0){

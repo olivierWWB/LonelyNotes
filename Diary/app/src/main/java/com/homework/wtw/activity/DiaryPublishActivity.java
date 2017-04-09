@@ -415,7 +415,8 @@ public class DiaryPublishActivity extends BaseActivity2 {
                         }
                     }
 
-                    //点了一次发送之后就别点了啊啊啊，要不然一下子发出去好多条一样的怎么办！
+                    //点了一次发送之后就别点了啊啊啊，要不然一下子发出去好多条一样的怎么办!
+                    //那如果我非要发一样的呢，你还不让我发了，凭啥，能的你
                     mSendMsgTextView.setFocusable(false);
                     mSendMsgTextView.setClickable(false);
                     setTopic(type, content, fileList, spinnerValue, "北京市", "20", 0);
