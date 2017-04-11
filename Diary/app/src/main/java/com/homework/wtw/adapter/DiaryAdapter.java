@@ -187,7 +187,7 @@ public class DiaryAdapter extends BaseAdapter {
 //        viewHolder.textDate.setText(diariesList.get(position).getCreate_time());
         viewHolder.textDate.setText(date[0] + " " + diariesList.get(position).getDay());
         viewHolder.textContent.setText(diariesList.get(position).getContent());
-        viewHolder.textRemarkNum.setText(String.valueOf(diariesList.get(position).getDiaryMessagesList().size()));
+        viewHolder.textRemarkNum.setText(String.valueOf(diariesList.get(position).getUser_message()));
         if(diariesList.get(position).getWhether() != null){
             viewHolder.textWhether.setText(diariesList.get(position).getWhether());
         }else{

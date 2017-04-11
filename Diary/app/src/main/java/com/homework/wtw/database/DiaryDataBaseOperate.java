@@ -50,14 +50,22 @@ public class DiaryDataBaseOperate {
 				values);
 	}
 
-//	public long updateMessage(Diary user) {
+	public void updateMessageCount(int diaryId) {
+		mDB.execSQL("update diary set user_message=user_message+1 where diary_id="+diaryId);
 //		ContentValues values = new ContentValues();
-//		values.put(UserSQLiteOpenHelper.COL_NAME, user.getName());
-//		values.put(UserSQLiteOpenHelper.COL_PWD, user.getPwd());
-//		values.put(UserSQLiteOpenHelper.COL_TIME, user.getModifyTime());
-//		return mDB.update(UserSQLiteOpenHelper.DATABASE_TABLE_USER, values,
-//				"_id=?", new String[] { ""+user.get_id() });
-//	}
+//		values.put(DiarySQLiteOpenHelper.COL_ID, diary.getDiary_id());
+//		values.put(DiarySQLiteOpenHelper.COL_TAG, diary.getTag());
+//		values.put(DiarySQLiteOpenHelper.COL_CONTENT, diary.getContent());
+//		values.put(DiarySQLiteOpenHelper.COL_ADDRESS, diary.getAddress());
+//		values.put(DiarySQLiteOpenHelper.COL_WEATHER, diary.getWhether());
+//		values.put(DiarySQLiteOpenHelper.COL_WEATHERIMAGE, diary.getWhether_image());
+//		values.put(DiarySQLiteOpenHelper.COL_DAY, diary.getDay());
+//		values.put(DiarySQLiteOpenHelper.COL_DATE, diary.getDate());
+//		values.put(DiarySQLiteOpenHelper.COL_TIME, diary.getCreate_time());
+//		//values.put(DiarySQLiteOpenHelper.COL_USERMESSAGE, diary.getUser_message());
+//		return mDB.update(DiarySQLiteOpenHelper.DATABASE_TABLE_DIARY, values,
+//				"user_message=?", new String[] { ""+diary.getUser_message()+1 });
+	}
 //
 //	// clear databases
 //	public long deleteAll() {

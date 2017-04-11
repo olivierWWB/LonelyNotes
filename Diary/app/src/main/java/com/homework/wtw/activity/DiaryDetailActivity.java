@@ -351,6 +351,10 @@ public class DiaryDetailActivity extends BaseActivity {
 
                     diaryDataBaseOperate.publishMessage(diaryMessage);
                     diaryCommentsList = diaryDataBaseOperate.findMessageByDiaryId(diaryID);
+
+                    diaryDataBaseOperate.updateMessageCount(diaryID);
+                    DiaryListActivity.diaryAdapter.setData(diaryDataBaseOperate.findAll());
+                    DiaryListActivity.diaryAdapter.notifyDataSetChanged();
                     //TO DO
                     commentAdapter.setData(diaryCommentsList);
 
