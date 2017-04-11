@@ -40,8 +40,17 @@ public class DiaryDataBaseOperate {
 		return mDB.insert(DiarySQLiteOpenHelper.DATABASE_TABLE_DIARY, null,
 				values);
 	}
+	public long publishMessage(DiaryMessage diaryMessage) {
+		ContentValues values = new ContentValues();
+		values.put(DiarySQLiteOpenHelper.COL_MCONTENT, diaryMessage.getContent());
+		values.put(DiarySQLiteOpenHelper.COL_MDATE, diaryMessage.getCreate_time());
+		values.put(DiarySQLiteOpenHelper.COL_MDIARY, diaryMessage.getSource_diary_id());
+		values.put(DiarySQLiteOpenHelper.COL_MDELETE, diaryMessage.getIs_active());
+		return mDB.insert(DiarySQLiteOpenHelper.DATABASE_TABLE_MESSAGE, null,
+				values);
+	}
 
-//	public long updateUser(Diary user) {
+//	public long updateMessage(Diary user) {
 //		ContentValues values = new ContentValues();
 //		values.put(UserSQLiteOpenHelper.COL_NAME, user.getName());
 //		values.put(UserSQLiteOpenHelper.COL_PWD, user.getPwd());
@@ -81,6 +90,30 @@ public class DiaryDataBaseOperate {
 //		}
 //		return count;
 //	}
+
+	public Diary findDiaryById(int diaryId) {
+		Diary diary = new Diary();
+
+		Cursor cursor = mDB.query(DiarySQLiteOpenHelper.DATABASE_TABLE_DIARY,
+				null, DiarySQLiteOpenHelper.COL_ID + " =?",
+				new String[] {diaryId+""}, null, null, null);
+		if (null != cursor) {
+			while (cursor.moveToNext()) {
+				diary.setDiary_id(cursor.getInt(cursor.getColumnIndex(DiarySQLiteOpenHelper.COL_ID)));
+				diary.setAddress(cursor.getString(cursor.getColumnIndex(DiarySQLiteOpenHelper.COL_ADDRESS)));
+				diary.setDate(cursor.getString(cursor.getColumnIndex(DiarySQLiteOpenHelper.COL_DATE)));
+				diary.setDay(cursor.getString(cursor.getColumnIndex(DiarySQLiteOpenHelper.COL_DAY)));
+				diary.setWhether(cursor.getString(cursor.getColumnIndex(DiarySQLiteOpenHelper.COL_WEATHER)));
+				diary.setWhether_image(cursor.getInt(cursor.getColumnIndex(DiarySQLiteOpenHelper.COL_WEATHERIMAGE)));
+				diary.setUser_message(cursor.getInt(cursor.getColumnIndex(DiarySQLiteOpenHelper.COL_USERMESSAGE)));
+				diary.setTag(cursor.getString(cursor.getColumnIndex(DiarySQLiteOpenHelper.COL_TAG)));
+				diary.setContent(cursor.getString(cursor.getColumnIndex(DiarySQLiteOpenHelper.COL_CONTENT)));
+			}
+			cursor.close();
+		}
+		return diary;
+	}
+
 	public List<Diary> findAll() {
 		List<Diary> diaryList = new ArrayList<Diary>();
 		//order by modifytime desc
@@ -106,7 +139,7 @@ public class DiaryDataBaseOperate {
 		return diaryList;
 	}
 
-	public List<DiaryMessage> findByDiaryId(int diaryId) {
+	public List<DiaryMessage> findMessageByDiaryId(int diaryId) {
 		List<DiaryMessage> diaryMessageList = new ArrayList<>();
 
 		Cursor cursor = mDB.query(DiarySQLiteOpenHelper.DATABASE_TABLE_MESSAGE,

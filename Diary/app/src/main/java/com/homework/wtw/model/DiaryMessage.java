@@ -12,16 +12,6 @@ public class DiaryMessage {
     private int source_diary_id;//该日记ID
     private String content;
     private String date;
-    private long create;
-
-    public long getCreate() {
-        return create;
-    }
-
-    public void setCreate(long create_time) {
-        this.create = create;
-    }
-
 
     public String getContent() {
         return content;

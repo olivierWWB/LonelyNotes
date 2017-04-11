@@ -37,14 +37,6 @@ public class DiaryCommentAdapter extends BaseAdapter {
     public DiaryCommentAdapter(Context context,List<DiaryMessage> list){
         this.context = context;
         Log.i(TAG,"addComment0");
-//        for(int i=0; i<list.size(); i++){
-//            Log.i(TAG,"addComment1");
-//            if(list.get(i).getIs_active() != -1){
-//                Log.i(TAG,"addComment2");
-//                commentsList.add(list.get(i));
-//                Log.i(TAG,"addComment~~~");
-//            }
-//        }
         this.commentsList = list;
         inflater = LayoutInflater.from(context);
         options = new DisplayImageOptions.Builder()
@@ -56,6 +48,10 @@ public class DiaryCommentAdapter extends BaseAdapter {
                 .considerExifParams(true)
                 //.displayer(new CircleBitmapDisplayer(Color.WHITE, 5))
                 .build();
+    }
+
+    public void setData(List<DiaryMessage> list) {
+        this.commentsList = list;
     }
 
     @Override
@@ -87,14 +83,8 @@ public class DiaryCommentAdapter extends BaseAdapter {
             holder = (ViewHolder) view.getTag();
         }
 
-
         holder.mTextViewTime.setText(commentsList.get(position).getCreate_time());
         holder.mTextViewDetail.setText(commentsList.get(position).getContent());
-
-
-        final int id = position;
-        final DiaryMessage tc = commentsList.get(position);
-
 
         return view;
     }

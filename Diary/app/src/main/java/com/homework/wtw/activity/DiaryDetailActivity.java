@@ -83,10 +83,9 @@ public class DiaryDetailActivity extends BaseActivity {
     private CustomImageView ivOne;
     private EditText commentEdit;
     private Button commentButton;
-    private LinearLayout linearLike, linearComment;
+    private LinearLayout linearComment;
 
     private DiaryCommentAdapter commentAdapter;
-    public  List<Diary> allTopicsList;
     private ArrayList<String> pictureList = new ArrayList<>();
 
     private int commentID = 0;
@@ -97,7 +96,8 @@ public class DiaryDetailActivity extends BaseActivity {
     private String content;
     private String pictures;
     private int commentNum = 0;
-    private String date,address,whether,day;
+    private String date,address,weather,day;
+    private int weatherImage;
 
     private static List<DiaryMessage> diaryCommentsList = new ArrayList<>();
 
@@ -108,11 +108,9 @@ public class DiaryDetailActivity extends BaseActivity {
     private long mLastTime;
     private long mCurTime;
 
-    private Diary diary;
+    private Diary diary = new Diary();
 
     private ActionBar actionBar = null;
-
-    private double latitudes;
 
     private Toolbar toolbar;
 
@@ -124,17 +122,18 @@ public class DiaryDetailActivity extends BaseActivity {
 
         intent = getIntent();
         diaryID = intent.getIntExtra("diaryId", -1);
-        tag = intent.getStringExtra("tag");
-        content = intent.getStringExtra("content");
-        pictures = intent.getStringExtra("pictures");
-        commentNum = intent.getIntExtra("commentNum", 0);
-        date = intent.getStringExtra("date");
-        day = intent.getStringExtra("day");
-        address = intent.getStringExtra("address");
-        whether = intent.getStringExtra("whether");
+        diary = diaryDataBaseOperate.findDiaryById(diaryID);
+        tag = diary.getTag();
+        content = diary.getContent();
+        commentNum = diary.getUser_message();
+        date = diary.getDate();
+        day = diary.getDay();
+        address = diary.getAddress();
+        weather = diary.getWhether();
+        weatherImage = diary.getWhether_image();
         fromWhere = intent.getIntExtra("fromwhere", -1);
 
-        diaryCommentsList = diaryDataBaseOperate.findByDiaryId(diaryID);
+        diaryCommentsList = diaryDataBaseOperate.findMessageByDiaryId(diaryID);
 
 //        container = (LinearLayout) findViewById(R.id.container);
 //        initSystemBar(container);
@@ -340,28 +339,20 @@ public class DiaryDetailActivity extends BaseActivity {
                 case R.id.comment_button://评论按钮
                     String comment_content = commentEdit.getText().toString();
 
-                        if(TextUtils.isEmpty(commentEdit.getText())){
-                            Toast.makeText(DiaryDetailActivity.this, "输入评论内容哟～～", Toast.LENGTH_SHORT).show();
-                            return;
-                        }
-
-
-//                            publishComment(1,comment_content,diaryID,-1);
-                    publishComment(comment_content,diaryID);
-
-                    int maxID = 0;
-                    for(int i=0; i<Constant.diariesList.size(); i++){
-                        if(Constant.diariesList.get(i).getDiary_id() == diaryID){
-                            int count = Constant.diariesList.get(i).getDiaryMessagesList().size();
-//                            maxID = count;
-                            maxID = Constant.diariesList.get(i).getDiaryMessagesList().get(commentNum-1).getDiary_message_id();
-                        }
+                    if(TextUtils.isEmpty(commentEdit.getText())){
+                        Toast.makeText(DiaryDetailActivity.this, "输入评论内容哟～～", Toast.LENGTH_SHORT).show();
+                        return;
                     }
+                    DiaryMessage diaryMessage = new DiaryMessage();
+                    diaryMessage.setContent(comment_content);
+                    diaryMessage.setSource_diary_id(diaryID);
+                    diaryMessage.setIs_active(1);
+                    diaryMessage.setCreate_time(TimeUtil.getCurrentTime());
 
+                    diaryDataBaseOperate.publishMessage(diaryMessage);
+                    diaryCommentsList = diaryDataBaseOperate.findMessageByDiaryId(diaryID);
                     //TO DO
-                            //DiaryMessage t = new DiaryMessage(maxID+1,TimeUtil.getCurrentTime(),comment_content, 1);
-                            //diaryCommentsList.add(t);
-
+                    commentAdapter.setData(diaryCommentsList);
 
                     commentAdapter.notifyDataSetChanged();
                         remarkListView.setSelection(commentAdapter.getCount() - 1);
@@ -499,9 +490,9 @@ public class DiaryDetailActivity extends BaseActivity {
         textRemarkNum.setText(String.valueOf(commentNum));
         textAddress.setText(address);
         textDate.setText(date);
-        textWhether.setText(whether+"℃");
+        textWhether.setText(weather);
         textTag.setText(tag);
-
+        whetherImage.setImageResource(Constant.mImageViewResourceId[weatherImage]);
         //发的话题的图片
         imagesList=new ArrayList<>();
 
@@ -632,19 +623,6 @@ public class DiaryDetailActivity extends BaseActivity {
         }
 
         this.finish();
-    }
-
-    private void publishComment(String content, int diaryID){
-        for(int i=0; i<Constant.diariesList.size(); i++){
-            if(Constant.diariesList.get(i).getDiary_id()==diaryID){
-                Constant.diariesList.get(i).getDiaryMessagesList().add(diaryCommentsList.get(diaryCommentsList.size()-1));
-                Constant.diariesList.get(i).setUser_message(1);
-            }
-        }
-
-        if(DiaryListActivity.diaryAdapter != null){
-            DiaryListActivity.diaryAdapter.notifyDataSetChanged();
-        }
     }
 }
 

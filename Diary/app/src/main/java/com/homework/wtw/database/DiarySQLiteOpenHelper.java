@@ -38,7 +38,7 @@ public class DiarySQLiteOpenHelper extends SQLiteOpenHelper {
 
 	private final String MESSAGE_CREATE ="create table IF NOT EXISTS "+DATABASE_TABLE_MESSAGE+"("+
 			COL_MID +" integer primary key autoincrement,"+
-			COL_MCONTENT +" text," +COL_MDATE+ " text," + COL_MDIARY +" integer,"+COL_MDELETE+" integer，"+COL_TIME+" text)";
+			COL_MCONTENT +" text," +COL_MDATE+ " text," + COL_MDIARY +" integer,"+COL_MDELETE+" integer)";
 	private static DiarySQLiteOpenHelper mInstance = null;
 	private static Context mContext;
 

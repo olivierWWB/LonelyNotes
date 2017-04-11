@@ -121,14 +121,6 @@ public class DiaryListActivity extends BaseActivity implements AbsListView.OnScr
                     Bundle bundle = new Bundle();
                     bundle.putInt("fromwhere", 0);//从列表页点item跳过去的
                     bundle.putInt("diaryId", Constant.diariesList.get(i).getDiary_id());
-                    bundle.putString("tag", Constant.diariesList.get(i).getTag());
-                    bundle.putString("content", Constant.diariesList.get(i).getContent());
-                    bundle.putString("pictures", Constant.diariesList.get(i).getPicture());//图片
-                    bundle.putInt("commentNum", Constant.diariesList.get(i).getDiaryMessagesList().size());
-                    bundle.putString("date", Constant.diariesList.get(i).getDate());
-                    bundle.putString("day", Constant.diariesList.get(i).getDay());
-                    bundle.putString("address", Constant.diariesList.get(i).getAddress());
-                    bundle.putString("whether", Constant.diariesList.get(i).getWhether());
                     intent.putExtras(bundle);
                     startActivity(intent);
                 }

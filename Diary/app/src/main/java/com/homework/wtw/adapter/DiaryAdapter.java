@@ -49,11 +49,6 @@ public class DiaryAdapter extends BaseAdapter {
 
     public DiaryAdapter(Context context, List<Diary> list) {
         this.context = context;
-//        for(int i=0; i<list.size(); i++){
-//            if(list.get(i).getIs_active() != -1){
-//                diariesList.add(list.get(i));
-//            }
-//        }
 
         this.diariesList = list;
         this.imageManager = ImageShowManager.from(context);
