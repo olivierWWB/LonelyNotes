@@ -486,8 +486,21 @@ public class DiaryPublishActivity extends BaseActivity2 {
     }
 
 
+<<<<<<< HEAD
 
     private void setTopic() {
+=======
+/*
+    private void setTopic(int type, String content, List<File> fileList, String tag, String address, String whether, int whetherImage) {
+
+        int maxID = Constant.diariesList.get(Constant.diariesList.size()-1).getDiary_id();
+//        int maxID = Constant.diariesList.size();
+        String pictures = Constant.imagePathAli;
+
+        ArrayList<DiaryMessage> diaryMessages = new ArrayList<>();
+        Diary diary = new Diary(maxID+1, content,tag, TimeUtil.getCurrentTime(),pictures, address, whether, whetherImage, diaryMessages, TimeUtil.getCurrentDay());
+        Constant.diariesList.add(0, diary);
+>>>>>>> origin/master
 
 //        int maxID = Constant.diariesList.get(Constant.diariesList.size()-1).getDiary_id();
 ////        int maxID = Constant.diariesList.size();
@@ -516,4 +529,5 @@ public class DiaryPublishActivity extends BaseActivity2 {
 
         mProgressDialog.dismiss();
     }
+    */
 }
