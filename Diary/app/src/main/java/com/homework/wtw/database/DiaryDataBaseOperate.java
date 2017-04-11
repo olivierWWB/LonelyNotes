@@ -50,22 +50,31 @@ public class DiaryDataBaseOperate {
 				values);
 	}
 
-	public void updateMessageCount(int diaryId) {
-		mDB.execSQL("update diary set user_message=user_message+1 where diary_id="+diaryId);
-//		ContentValues values = new ContentValues();
-//		values.put(DiarySQLiteOpenHelper.COL_ID, diary.getDiary_id());
-//		values.put(DiarySQLiteOpenHelper.COL_TAG, diary.getTag());
-//		values.put(DiarySQLiteOpenHelper.COL_CONTENT, diary.getContent());
-//		values.put(DiarySQLiteOpenHelper.COL_ADDRESS, diary.getAddress());
-//		values.put(DiarySQLiteOpenHelper.COL_WEATHER, diary.getWhether());
-//		values.put(DiarySQLiteOpenHelper.COL_WEATHERIMAGE, diary.getWhether_image());
-//		values.put(DiarySQLiteOpenHelper.COL_DAY, diary.getDay());
-//		values.put(DiarySQLiteOpenHelper.COL_DATE, diary.getDate());
-//		values.put(DiarySQLiteOpenHelper.COL_TIME, diary.getCreate_time());
-//		//values.put(DiarySQLiteOpenHelper.COL_USERMESSAGE, diary.getUser_message());
-//		return mDB.update(DiarySQLiteOpenHelper.DATABASE_TABLE_DIARY, values,
-//				"user_message=?", new String[] { ""+diary.getUser_message()+1 });
+	public void updateMessageCount(int diaryId, int flag) {
+		//flag=0为增加评论 flag=1为删除评论
+		if(flag == 0) {
+			mDB.execSQL("update diary set user_message=user_message+1 where diary_id="+diaryId);
+		}else if(flag == 1) {
+			mDB.execSQL("update diary set user_message=user_message-1 where diary_id="+diaryId);
+		}else {
+
+		}
+
 	}
+
+	public long deleteMessage(int messageId) {
+		return mDB.delete("message", "diary_message_id=?", new String[]{messageId+""});
+	}
+
+	public long deleteDiary(int diaryId) {
+		return mDB.delete("diary", "diary_id=?", new String[]{diaryId+""});
+	}
+
+	public long deleteMessageByDiary(int diaryId) {
+		return mDB.delete("message", "source_diary_id=?", new String[]{diaryId+""});
+	}
+
+
 //
 //	// clear databases
 //	public long deleteAll() {
@@ -167,41 +176,4 @@ public class DiaryDataBaseOperate {
 		}
 		return diaryMessageList;
 	}
-
-//	public List<UserBean> findUserByName(String name) {
-//
-//		List<UserBean> userList = new ArrayList<UserBean>();
-//		//模糊查询
-//		Cursor cursor = mDB.query(UserSQLiteOpenHelper.DATABASE_TABLE_USER,
-//				null, UserSQLiteOpenHelper.COL_NAME + " like?",
-//				new String[] {"%"+name+"%"}, null, null, UserSQLiteOpenHelper.COL_ID
-//				+ " desc");
-//
-////		Cursor cursor = mDB.query(UserSQLiteOpenHelper.DATABASE_TABLE_USER,
-////			null, UserSQLiteOpenHelper.COL_NAME + " =?",
-////			new String[] {name}, null, null, UserSQLiteOpenHelper.COL_ID
-////			+ " desc");
-//
-//		//多个条件查询
-////		Cursor cursor = mDB.query(UserSQLiteOpenHelper.DATABASE_TABLE_USER,
-////				null, UserSQLiteOpenHelper.COL_NAME + " like?"+" and "+UserSQLiteOpenHelper.COL_ID+" >?",
-////				new String[] {"%"+name+"%",2+""}, null, null, UserSQLiteOpenHelper.COL_ID
-////				+ " desc");
-//		if (null != cursor) {
-//			while (cursor.moveToNext()) {
-//				UserBean user = new UserBean();
-//				user.set_id(cursor.getLong(cursor
-//						.getColumnIndex(UserSQLiteOpenHelper.COL_ID)));
-//				user.setName(cursor.getString(cursor
-//						.getColumnIndex(UserSQLiteOpenHelper.COL_NAME)));
-//				user.setPwd(cursor.getString(cursor
-//						.getColumnIndex(UserSQLiteOpenHelper.COL_PWD)));
-//				user.setModifyTime(cursor.getLong(cursor
-//						.getColumnIndex(UserSQLiteOpenHelper.COL_TIME)));
-//				userList.add(user);
-//			}
-//			cursor.close();
-//		}
-//		return userList;
-//	}
 }

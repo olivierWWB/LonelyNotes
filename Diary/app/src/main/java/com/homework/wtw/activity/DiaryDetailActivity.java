@@ -248,13 +248,15 @@ public class DiaryDetailActivity extends BaseActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         if (which == 0) {//删除
-                            deleteDiaryMessage(diaryCommentsList.get(position).getDiary_message_id());
-//                            deleteDiaryMessage(diaryMessage);
-//                            diaryCommentsList.get(position).setIs_active(-1);
-                            textRemarkNum.setText(String.valueOf(commentNum - 1));
-                            commentNum -= 1;
-                            diaryCommentsList.remove(position);
+                            diaryDataBaseOperate.updateMessageCount(diaryID, 1);
+                            diaryDataBaseOperate.deleteMessage(diaryCommentsList.get(position).getDiary_message_id());
+                            diaryCommentsList = diaryDataBaseOperate.findMessageByDiaryId(diaryID);
+                            diary = diaryDataBaseOperate.findDiaryById(diaryID);
+                            DiaryListActivity.diaryAdapter.setData(diaryDataBaseOperate.findAll());
+                            DiaryListActivity.diaryAdapter.notifyDataSetChanged();
+                            commentAdapter.setData(diaryCommentsList);
                             commentAdapter.notifyDataSetChanged();
+                            textRemarkNum.setText(diary.getUser_message()+"");
                         }
                     }
                 });
@@ -350,25 +352,21 @@ public class DiaryDetailActivity extends BaseActivity {
                     diaryMessage.setCreate_time(TimeUtil.getCurrentTime());
 
                     diaryDataBaseOperate.publishMessage(diaryMessage);
+                    diaryDataBaseOperate.updateMessageCount(diaryID, 0);
+                    diary = diaryDataBaseOperate.findDiaryById(diaryID);
                     diaryCommentsList = diaryDataBaseOperate.findMessageByDiaryId(diaryID);
-
-                    diaryDataBaseOperate.updateMessageCount(diaryID);
                     DiaryListActivity.diaryAdapter.setData(diaryDataBaseOperate.findAll());
                     DiaryListActivity.diaryAdapter.notifyDataSetChanged();
                     //TO DO
                     commentAdapter.setData(diaryCommentsList);
 
                     commentAdapter.notifyDataSetChanged();
-                        remarkListView.setSelection(commentAdapter.getCount() - 1);
-                        setListViewHeight(remarkListView);
-
-
-                        remarkImage.setImageDrawable(getResources().getDrawable(R.drawable.comment_blue));
-                        textRemarkNum.setTextColor(getResources().getColor(R.color.light_blue));
-                        textRemarkNum.setText(String.valueOf(commentNum + 1));
-                        commentNum += 1;
-                        commentEdit.setText("");
-                        commentEdit.setHint("");
+                    remarkListView.setSelection(commentAdapter.getCount() - 1);
+                    setListViewHeight(remarkListView);
+                    remarkImage.setImageDrawable(getResources().getDrawable(R.drawable.comment_blue));
+                    textRemarkNum.setText(diary.getUser_message()+"");
+                    commentEdit.setText("");
+                    commentEdit.setHint("");
 
                     break;
 
@@ -463,18 +461,11 @@ public class DiaryDetailActivity extends BaseActivity {
         btn3.setOnClickListener(new View.OnClickListener() {//删除这条话题哎呀呀
             @Override
             public void onClick(View v) {
-
-                for (int i = 0; i < Constant.diariesList.size(); i++) {
-                    if (Constant.diariesList.get(i).getDiary_id() == diaryID) {
-                        Constant.diariesList.remove(i);
-//                        Constant.diariesList.get(i).setIs_active(-1);
-                    }
-                }
-                if(DiaryListActivity.diaryAdapter != null)
-                    DiaryListActivity.diaryAdapter.notifyDataSetChanged();
-
+                diaryDataBaseOperate.deleteMessageByDiary(diaryID);
+                diaryDataBaseOperate.deleteDiary(diaryID);
+                DiaryListActivity.diaryAdapter.setData(diaryDataBaseOperate.findAll());
+                DiaryListActivity.diaryAdapter.notifyDataSetChanged();
                 window.dismiss();
-
                 finish();
             }
         });
