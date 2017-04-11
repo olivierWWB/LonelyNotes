@@ -7,6 +7,7 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import com.homework.wtw.model.Diary;
+import com.homework.wtw.model.DiaryMessage;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,7 +37,7 @@ public class DiaryDataBaseOperate {
 		values.put(DiarySQLiteOpenHelper.COL_DATE, diary.getDate());
 		values.put(DiarySQLiteOpenHelper.COL_TIME, diary.getCreate_time());
 		values.put(DiarySQLiteOpenHelper.COL_USERMESSAGE, diary.getUser_message());
-		return mDB.insert(DiarySQLiteOpenHelper.DATABASE_TABLE_USER, null,
+		return mDB.insert(DiarySQLiteOpenHelper.DATABASE_TABLE_DIARY, null,
 				values);
 	}
 
@@ -83,7 +84,7 @@ public class DiaryDataBaseOperate {
 	public List<Diary> findAll() {
 		List<Diary> diaryList = new ArrayList<Diary>();
 		//order by modifytime desc
-		Cursor cursor = mDB.query(DiarySQLiteOpenHelper.DATABASE_TABLE_USER,
+		Cursor cursor = mDB.query(DiarySQLiteOpenHelper.DATABASE_TABLE_DIARY,
 				null, null, null, null, null, DiarySQLiteOpenHelper.COL_TIME
 						+ " desc");
 		if (null != cursor) {
@@ -103,6 +104,27 @@ public class DiaryDataBaseOperate {
 			cursor.close();
 		}
 		return diaryList;
+	}
+
+	public List<DiaryMessage> findByDiaryId(int diaryId) {
+		List<DiaryMessage> diaryMessageList = new ArrayList<>();
+
+		Cursor cursor = mDB.query(DiarySQLiteOpenHelper.DATABASE_TABLE_MESSAGE,
+			null, DiarySQLiteOpenHelper.COL_MDIARY + " =?",
+			new String[] {diaryId+""}, null, null, null);
+		if (null != cursor) {
+			while (cursor.moveToNext()) {
+				DiaryMessage diaryMessage = new DiaryMessage();
+				diaryMessage.setDiary_message_id(cursor.getInt(cursor.getColumnIndex(DiarySQLiteOpenHelper.COL_MID)));
+				diaryMessage.setContent(cursor.getString(cursor.getColumnIndex(DiarySQLiteOpenHelper.COL_MCONTENT)));
+				diaryMessage.setCreate_time(cursor.getString(cursor.getColumnIndex(DiarySQLiteOpenHelper.COL_MDATE)));
+				diaryMessage.setSource_diary_id(cursor.getInt(cursor.getColumnIndex(DiarySQLiteOpenHelper.COL_MDIARY)));
+				diaryMessage.setIs_active(cursor.getInt(cursor.getColumnIndex(DiarySQLiteOpenHelper.COL_MDELETE)));
+				diaryMessageList.add(diaryMessage);
+			}
+			cursor.close();
+		}
+		return diaryMessageList;
 	}
 
 //	public List<UserBean> findUserByName(String name) {

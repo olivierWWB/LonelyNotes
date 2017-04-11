@@ -36,7 +36,6 @@ import android.widget.Toast;
 
 import com.homework.wtw.database.DiaryDataBaseOperate;
 import com.homework.wtw.diary.DiaryApplication;
-import com.homework.wtw.diary.MainActivity;
 import com.thinkpage.lib.api.*;
 
 
@@ -47,7 +46,6 @@ import com.amap.api.location.AMapLocationListener;
 import com.homework.wtw.adapter.DiaryPublishAdapter;
 import com.homework.wtw.diary.R;
 import com.homework.wtw.model.Diary;
-import com.homework.wtw.model.DiaryMessage;
 import com.homework.wtw.util.Constant;
 import com.homework.wtw.util.PictureUtil;
 import com.homework.wtw.util.TimeUtil;

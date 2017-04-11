@@ -42,6 +42,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.homework.wtw.adapter.DiaryCommentAdapter;
+import com.homework.wtw.database.DiaryDataBaseOperate;
+import com.homework.wtw.diary.DiaryApplication;
 import com.homework.wtw.diary.R;
 import com.homework.wtw.listener.AnimateFirstDisplayListener;
 import com.homework.wtw.model.Diary;
@@ -64,6 +66,8 @@ public class DiaryDetailActivity extends BaseActivity {
     private LinearLayout commentLayout;
     private ScrollView scrollView;
     private RelativeLayout relativeLayout;
+
+    private DiaryDataBaseOperate diaryDataBaseOperate;
 
     private DisplayImageOptions options;
     private ImageLoadingListener animateFirstListener = new AnimateFirstDisplayListener();
@@ -95,7 +99,7 @@ public class DiaryDetailActivity extends BaseActivity {
     private int commentNum = 0;
     private String date,address,whether,day;
 
-    private static ArrayList<DiaryMessage> diaryCommentsList = new ArrayList<>();
+    private static List<DiaryMessage> diaryCommentsList = new ArrayList<>();
 
     private Intent intent;
     private ImageView mImageView;
@@ -116,6 +120,7 @@ public class DiaryDetailActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_diary_detail);
+        diaryDataBaseOperate = new DiaryDataBaseOperate(DiaryApplication.diarySQLiteOpenHelper.getWritableDatabase());
 
         intent = getIntent();
         diaryID = intent.getIntExtra("diaryId", -1);
@@ -129,7 +134,7 @@ public class DiaryDetailActivity extends BaseActivity {
         whether = intent.getStringExtra("whether");
         fromWhere = intent.getIntExtra("fromwhere", -1);
 
-        diaryCommentsList = (ArrayList<DiaryMessage>)intent.getExtras().getSerializable("commentList");
+        diaryCommentsList = diaryDataBaseOperate.findByDiaryId(diaryID);
 
 //        container = (LinearLayout) findViewById(R.id.container);
 //        initSystemBar(container);
@@ -353,9 +358,9 @@ public class DiaryDetailActivity extends BaseActivity {
                         }
                     }
 
-
-                            DiaryMessage t = new DiaryMessage(maxID+1,TimeUtil.getCurrentTime(),comment_content, 1);
-                            diaryCommentsList.add(t);
+                    //TO DO
+                            //DiaryMessage t = new DiaryMessage(maxID+1,TimeUtil.getCurrentTime(),comment_content, 1);
+                            //diaryCommentsList.add(t);
 
 
                     commentAdapter.notifyDataSetChanged();

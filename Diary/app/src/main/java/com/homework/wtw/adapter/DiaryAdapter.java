@@ -230,7 +230,6 @@ public class DiaryAdapter extends BaseAdapter {
                 bundle.putString("day", Constant.diariesList.get(id).getDay());
                 bundle.putString("address", Constant.diariesList.get(id).getAddress());
                 bundle.putString("whether", Constant.diariesList.get(id).getWhether());
-                bundle.putParcelableArrayList("commentList", Constant.diariesList.get(id).getDiaryMessagesList());
                 intent.putExtras(bundle);
                 context.startActivity(intent);
             }

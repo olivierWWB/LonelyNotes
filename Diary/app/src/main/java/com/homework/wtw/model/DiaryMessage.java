@@ -6,27 +6,22 @@ package com.homework.wtw.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-public class DiaryMessage implements Parcelable {
+public class DiaryMessage {
     private int diary_message_id;//对话题评论的ID
     private int is_active; //-1-已经删除。1-没删除
     private int source_diary_id;//该日记ID
     private String content;
-    private String create_time;
+    private String date;
+    private long create;
 
-
-    public DiaryMessage(){}
-
-    public DiaryMessage(int diary_message_id,String time, String content, int is_active){
-        this.diary_message_id = diary_message_id;
-        this.content = content;
-        this.create_time = time;
-        this.is_active = is_active;
+    public long getCreate() {
+        return create;
     }
 
-    public DiaryMessage(String time,  String content){
-        this.content = content;
-        this.create_time = time;
+    public void setCreate(long create_time) {
+        this.create = create;
     }
+
 
     public String getContent() {
         return content;
@@ -37,37 +32,37 @@ public class DiaryMessage implements Parcelable {
     }
 
 
-
-    /** 下面实现的是对象的序列化*/
-    public int describeContents()
-    {
-        return 0;
-    }
-
-    public void writeToParcel(Parcel dest, int flags)
-    {
-        dest.writeString(content);
-        dest.writeInt(diary_message_id);
-        dest.writeInt(is_active);
-        dest.writeString(create_time);
-    }
-
-    public static final Creator<DiaryMessage> CREATOR = new Creator<DiaryMessage>()
-    {
-        public DiaryMessage createFromParcel(Parcel source)
-        {
-            DiaryMessage message = new DiaryMessage();
-            message.content = source.readString();
-            message.diary_message_id = source.readInt();
-            message.is_active = source.readInt();
-            message.create_time = source.readString();
-            return message;
-        }
-        public DiaryMessage[] newArray(int size)
-        {
-            return new DiaryMessage[size];
-        }
-    };
+//    可以的，不用实现，啦啦啦啦啦啦
+//    /** 下面实现的是对象的序列化*/
+//    public int describeContents()
+//    {
+//        return 0;
+//    }
+//
+//    public void writeToParcel(Parcel dest, int flags)
+//    {
+//        dest.writeString(content);
+//        dest.writeInt(diary_message_id);
+//        dest.writeInt(is_active);
+//        dest.writeString(create_time);
+//    }
+//
+//    public static final Creator<DiaryMessage> CREATOR = new Creator<DiaryMessage>()
+//    {
+//        public DiaryMessage createFromParcel(Parcel source)
+//        {
+//            DiaryMessage message = new DiaryMessage();
+//            message.content = source.readString();
+//            message.diary_message_id = source.readInt();
+//            message.is_active = source.readInt();
+//            message.create_time = source.readString();
+//            return message;
+//        }
+//        public DiaryMessage[] newArray(int size)
+//        {
+//            return new DiaryMessage[size];
+//        }
+//    };
 
     public int getDiary_message_id() {
         return diary_message_id;
@@ -86,11 +81,11 @@ public class DiaryMessage implements Parcelable {
     }
 
     public String getCreate_time() {
-        return create_time;
+        return date;
     }
 
-    public void setCreate_time(String create_time) {
-        this.create_time = create_time;
+    public void setCreate_time(String date) {
+        this.date = date;
     }
 
     public int getSource_diary_id() {

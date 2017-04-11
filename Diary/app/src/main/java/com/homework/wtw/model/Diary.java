@@ -7,7 +7,6 @@ package com.homework.wtw.model;
 import java.util.ArrayList;
 
 public class Diary {
-    private double distance;
     private ArrayList<DiaryMessage> diaryMessagesList = new ArrayList<>();
 
     public ArrayList<DiaryMessage> getDiaryMessagesList() {
@@ -55,13 +54,6 @@ public class Diary {
         this.diaryMessagesList = diaryMessagesList;
     }
 
-    public double getDistance() {
-        return distance;
-    }
-
-    public void setDistance(double distance) {
-        this.distance = distance;
-    }
 
     public String getTag() {
         return tag;

@@ -129,8 +129,6 @@ public class DiaryListActivity extends BaseActivity implements AbsListView.OnScr
                     bundle.putString("day", Constant.diariesList.get(i).getDay());
                     bundle.putString("address", Constant.diariesList.get(i).getAddress());
                     bundle.putString("whether", Constant.diariesList.get(i).getWhether());
-                    bundle.putParcelableArrayList("commentList", Constant.diariesList.get(i).getDiaryMessagesList());
-
                     intent.putExtras(bundle);
                     startActivity(intent);
                 }
