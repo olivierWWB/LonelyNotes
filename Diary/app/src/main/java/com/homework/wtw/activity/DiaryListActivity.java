@@ -23,6 +23,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import java.util.ArrayList;
 import com.homework.wtw.adapter.DiaryAdapter;
+import com.homework.wtw.database.DiaryDataBaseOperate;
 import com.homework.wtw.diary.DiaryApplication;
 import com.homework.wtw.diary.R;
 
@@ -39,6 +40,7 @@ import com.squareup.leakcanary.RefWatcher;
 public class DiaryListActivity extends BaseActivity implements AbsListView.OnScrollListener{
 
     private String TAG = "DiaryListActivity";
+    private DiaryDataBaseOperate diaryDataBaseOperate;
 
     public ProgressWheel progressWheel;
     private SwipeRefreshLayout swipeRefreshLayout;
@@ -74,6 +76,7 @@ public class DiaryListActivity extends BaseActivity implements AbsListView.OnScr
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_diary);
+        diaryDataBaseOperate = new DiaryDataBaseOperate(DiaryApplication.diarySQLiteOpenHelper.getWritableDatabase());
 
 //        container = (LinearLayout) findViewById(R.id.container);
 //        initSystemBar(container);
@@ -122,7 +125,7 @@ public class DiaryListActivity extends BaseActivity implements AbsListView.OnScr
                     bundle.putString("content", Constant.diariesList.get(i).getContent());
                     bundle.putString("pictures", Constant.diariesList.get(i).getPicture());//图片
                     bundle.putInt("commentNum", Constant.diariesList.get(i).getDiaryMessagesList().size());
-                    bundle.putString("date", Constant.diariesList.get(i).getCreate_time());
+                    bundle.putString("date", Constant.diariesList.get(i).getDate());
                     bundle.putString("day", Constant.diariesList.get(i).getDay());
                     bundle.putString("address", Constant.diariesList.get(i).getAddress());
                     bundle.putString("whether", Constant.diariesList.get(i).getWhether());
@@ -255,18 +258,19 @@ public class DiaryListActivity extends BaseActivity implements AbsListView.OnScr
 
 
     public void getDiaries(){
-        for(int i=0; i<5; i++){//5条日记数据
-            ArrayList<DiaryMessage> diaryMessages = new ArrayList<>();
-            for (int j=0; j<2; j++){//两条评论
-                DiaryMessage diaryMessage = new DiaryMessage(j+1,"2017-03-06 23:23:23","messageContent", 1);
-                diaryMessages.add(diaryMessage);
-            }
-
-            Diary diary = new Diary();
-            Constant.diariesList.add(diary);
-        }
+//        for(int i=0; i<5; i++){//5条日记数据
+//            ArrayList<DiaryMessage> diaryMessages = new ArrayList<>();
+//            for (int j=0; j<2; j++){//两条评论
+//                DiaryMessage diaryMessage = new DiaryMessage(j+1,"2017-03-06 23:23:23","messageContent", 1);
+//                diaryMessages.add(diaryMessage);
+//            }
+//
+//            Diary diary = new Diary();
+//            Constant.diariesList.add(diary);
+//        }
 
 //        diaryAdapter = null;
+        Constant.diariesList = diaryDataBaseOperate.findAll();
         diaryAdapter = new DiaryAdapter(DiaryListActivity.this, Constant.diariesList);
         mListView.setAdapter(diaryAdapter);
 

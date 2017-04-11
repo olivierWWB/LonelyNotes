@@ -16,7 +16,8 @@ public class Diary {
 
     private String picture;
     private String content;
-    private String create_time;
+    private long create_time;
+    private String date;
     private String day;
     private int diary_id;
     private String tag;
@@ -42,11 +43,11 @@ public class Diary {
         this.content = content;
     }
 
-    public String getCreate_time() {
+    public long getCreate_time() {
         return create_time;
     }
 
-    public void setCreate_time(String create_time) {
+    public void setCreate_time(long create_time) {
         this.create_time = create_time;
     }
 
@@ -109,6 +110,10 @@ public class Diary {
     public void setDay(String day) {
         this.day = day;
     }
+
+    public String getDate() { return date; }
+
+    public void setDate(String date) { this.date = date; }
 
     public int getWhether_image() {
         return whether_image;

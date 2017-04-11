@@ -32,6 +32,10 @@ public class DiaryDataBaseOperate {
 		values.put(DiarySQLiteOpenHelper.COL_ADDRESS, diary.getAddress());
 		values.put(DiarySQLiteOpenHelper.COL_WEATHER, diary.getWhether());
 		values.put(DiarySQLiteOpenHelper.COL_WEATHERIMAGE, diary.getWhether_image());
+		values.put(DiarySQLiteOpenHelper.COL_DAY, diary.getDay());
+		values.put(DiarySQLiteOpenHelper.COL_DATE, diary.getDate());
+		values.put(DiarySQLiteOpenHelper.COL_TIME, diary.getCreate_time());
+		values.put(DiarySQLiteOpenHelper.COL_USERMESSAGE, diary.getUser_message());
 		return mDB.insert(DiarySQLiteOpenHelper.DATABASE_TABLE_USER, null,
 				values);
 	}
@@ -76,51 +80,31 @@ public class DiaryDataBaseOperate {
 //		}
 //		return count;
 //	}
-//	public List<UserBean> findAll() {
-//		List<UserBean> userList = new ArrayList<UserBean>();
-//		//order by modifytime desc
-//		Cursor cursor = mDB.query(UserSQLiteOpenHelper.DATABASE_TABLE_USER,
-//				null, null, null, null, null, UserSQLiteOpenHelper.COL_TIME
-//						+ " desc");
-//		if (null != cursor) {
-//			while (cursor.moveToNext()) {
-//				UserBean user = new UserBean();
-//				user.set_id(cursor.getLong(cursor
-//						.getColumnIndex(UserSQLiteOpenHelper.COL_ID)));
-//				user.setName(cursor.getString(cursor
-//						.getColumnIndex(UserSQLiteOpenHelper.COL_NAME)));
-//				user.setPwd(cursor.getString(cursor
-//						.getColumnIndex(UserSQLiteOpenHelper.COL_PWD)));
-//				user.setModifyTime(cursor.getLong(cursor
-//						.getColumnIndex(UserSQLiteOpenHelper.COL_TIME)));
-//				userList.add(user);
-//			}
-//			cursor.close();
-//		}
-//		return userList;
-//	}
-//	public UserBean findUserLatest() {
-//		UserBean user = null;
-//		Cursor cursor = mDB.query(UserSQLiteOpenHelper.DATABASE_TABLE_USER,
-//				null, null, null, null, null, UserSQLiteOpenHelper.COL_TIME
-//						+ " desc");
-//		if (null != cursor) {
-//			if (cursor.moveToFirst()) {
-//				user = new UserBean();
-//				user.set_id(cursor.getLong(cursor
-//						.getColumnIndex(UserSQLiteOpenHelper.COL_ID)));
-//				user.setName(cursor.getString(cursor
-//						.getColumnIndex(UserSQLiteOpenHelper.COL_NAME)));
-//				user.setPwd(cursor.getString(cursor
-//						.getColumnIndex(UserSQLiteOpenHelper.COL_PWD)));
-//				user.setModifyTime(cursor.getLong(cursor
-//						.getColumnIndex(UserSQLiteOpenHelper.COL_TIME)));
-//			}
-//			cursor.close();
-//		}
-//		return user;
-//	}
-//
+	public List<Diary> findAll() {
+		List<Diary> diaryList = new ArrayList<Diary>();
+		//order by modifytime desc
+		Cursor cursor = mDB.query(DiarySQLiteOpenHelper.DATABASE_TABLE_USER,
+				null, null, null, null, null, DiarySQLiteOpenHelper.COL_TIME
+						+ " desc");
+		if (null != cursor) {
+			while (cursor.moveToNext()) {
+				Diary diary = new Diary();
+				diary.setDiary_id(cursor.getInt(cursor.getColumnIndex(DiarySQLiteOpenHelper.COL_ID)));
+				diary.setAddress(cursor.getString(cursor.getColumnIndex(DiarySQLiteOpenHelper.COL_ADDRESS)));
+				diary.setDate(cursor.getString(cursor.getColumnIndex(DiarySQLiteOpenHelper.COL_DATE)));
+				diary.setDay(cursor.getString(cursor.getColumnIndex(DiarySQLiteOpenHelper.COL_DAY)));
+				diary.setWhether(cursor.getString(cursor.getColumnIndex(DiarySQLiteOpenHelper.COL_WEATHER)));
+				diary.setWhether_image(cursor.getInt(cursor.getColumnIndex(DiarySQLiteOpenHelper.COL_WEATHERIMAGE)));
+				diary.setUser_message(cursor.getInt(cursor.getColumnIndex(DiarySQLiteOpenHelper.COL_USERMESSAGE)));
+				diary.setTag(cursor.getString(cursor.getColumnIndex(DiarySQLiteOpenHelper.COL_TAG)));
+				diary.setContent(cursor.getString(cursor.getColumnIndex(DiarySQLiteOpenHelper.COL_CONTENT)));
+				diaryList.add(diary);
+			}
+			cursor.close();
+		}
+		return diaryList;
+	}
+
 //	public List<UserBean> findUserByName(String name) {
 //
 //		List<UserBean> userList = new ArrayList<UserBean>();
@@ -157,59 +141,4 @@ public class DiaryDataBaseOperate {
 //		}
 //		return userList;
 //	}
-
-
-
-
-
-//	private static SQLiteDatabase mTestDb;
-//	public static void InsertTest(){
-//		//
-//		mTestDb = SQLiteDatabase.openOrCreateDatabase("/data/data/cn.vn.sqlitedatademo/databases/my.db", null);
-//		//
-//		mTestDb.execSQL("CREATE TABLE IF NOT EXISTS user_info(_id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT,pwd TEXT,modifyTime INTEGER)");
-//		UserBean user = new UserBean();
-//		user.setName("xiaopihai");
-//		user.setPwd("12345678");
-//		user.setModifyTime(System.currentTimeMillis());
-//		//增加一条数据，因s为有5列，所以需要写5个数据，否则会失败,
-//		//第一个数据位null，这是因为它是自动增长的。.
-//		mTestDb.execSQL("INSERT INTO user_info VALUES(null,'xiaopihai','12345678',"+user.getModifyTime()+")");
-//		//
-//		//mTestDb.execSQL("INSERT INTO user_info VALUES(12,'zhangsan','mima1111',"+System.currentTimeMillis()+")");
-//		//SQLiteConstraintException: PRIMARY KEY must be unique (code 19)
-//		//下面是增加一条数据（只设置某个或某几个内容），默认没添加的数据时空的。
-//		mTestDb.execSQL("INSERT INTO user_info(name,pwd) VALUES('lisi','mimajjjj')");
-//		mTestDb.execSQL("INSERT INTO user_info VALUES(null,?,?,?)",new Object[]{user.getName(),user.getPwd(),user.getModifyTime()});
-//		mTestDb.execSQL("INSERT INTO user_info(name,pwd) VALUES(?,?)",new Object[]{"lisi","mimajjjj"});
-//
-//		ContentValues values = new ContentValues();
-//		values.put(UserSQLiteOpenHelper.COL_NAME,"qwerdf");
-//		//values.put(UserSQLiteOpenHelper.COL_PWD, "qwerdflol");
-//		values.put(UserSQLiteOpenHelper.COL_TIME, user.getModifyTime());
-//		mTestDb.insert("user_info", null,values);
-//	}
-//
-//public static void updateTest(){
-//	mTestDb.execSQL("UPDATE user_info SET name = 'update1' WHERE _id = 1;");
-//	mTestDb.execSQL("UPDATE user_info SET name =? WHERE _id=?",new Object[]{"update1",1});
-//	mTestDb.execSQL("UPDATE user_info SET name = 'update2',modifyTime=111 WHERE _id = 2;");
-//	mTestDb.execSQL("UPDATE user_info SET name =? ,modifyTime =? WHERE _id=?",new Object[]{"update1",111,2});
-//
-//	ContentValues values = new ContentValues();
-//	values.put("name","update3");
-//	values.put("pwd", "2222222");
-//	values.put("modifyTime", 898);
-//	mTestDb.update("user_info", values, "_id=?", new String[]{String.valueOf(3)});
-//}
-//
-//public static void deleteTest(){
-//	mTestDb.execSQL("delete from user_info where _id=1");
-//	//mTestDb.execSQL("delete from user_info where _id=?",new Object[]{1});
-//
-//	int de = mTestDb.delete("user_info", "_id=?", new String[]{String.valueOf(2)});
-//	int de8 = mTestDb.delete("user_info", "_id=?", new String[]{String.valueOf(8)});
-//	int deall =mTestDb.delete("user_info", null, null);
-//	Log.d(TAG, "de ="+de+" de8="+de8+" deall="+deall);
-//}
 }

@@ -11,6 +11,7 @@ public class DiarySQLiteOpenHelper extends SQLiteOpenHelper {
 	public static final String DATABASE_TABLE_USER = "diary";
 	public static final String COL_ID = "diary_id";
 	public static final String COL_CONTENT = "content";
+	public static final String COL_DATE = "date";
 	public static final String COL_DAY = "day";
 	public static final String COL_TAG = "tag";
 	public static final String COL_USERMESSAGE = "user_message";
@@ -21,8 +22,8 @@ public class DiarySQLiteOpenHelper extends SQLiteOpenHelper {
 	public static final String COL_TIME = "create_time";// create time
 	private final String REMOTE_LIVE_DATABASE_CREATE ="create table IF NOT EXISTS "+DATABASE_TABLE_USER+"("+
 			COL_ID +" integer primary key autoincrement,"+
-			COL_CONTENT +" text," +COL_DAY +" text,"+COL_TAG +" text,"+COL_USERMESSAGE +" integer,"+COL_ADDRESS +" text,"+
-			COL_WEATHER +" text,"+COL_WEATHERIMAGE +" integer,"+COL_PICTURE +" BLOB,"+COL_TIME+" integer)";
+			COL_CONTENT +" text," +COL_DAY+ " text," + COL_DATE +" text,"+COL_TAG +" text,"+COL_USERMESSAGE +" integer,"+COL_ADDRESS +" text,"+
+			COL_WEATHER +" text,"+COL_WEATHERIMAGE +" integer,"+COL_PICTURE +" BLOB,"+COL_TIME+" text)";
 	private static DiarySQLiteOpenHelper mInstance = null;
 	private static Context mContext;
 

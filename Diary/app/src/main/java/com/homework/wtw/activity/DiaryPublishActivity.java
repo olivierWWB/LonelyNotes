@@ -112,9 +112,10 @@ public class DiaryPublishActivity extends BaseActivity2 {
             if (null != loc) {
                 //解析定位结果
                 mylocation = Utils.getCity(loc, 0);
+
                 String weathercity = Utils.getCity(loc, 1);
 
-                weatherManager.getWeatherNow(new TPCity("北京市")
+                weatherManager.getWeatherNow(new TPCity(weathercity)
                         , TPWeatherManager.TPWeatherReportLanguage.kSimplifiedChinese
                         , TPWeatherManager.TPTemperatureUnit.kCelsius
                         , new TPListeners.TPWeatherNowListener() {
@@ -125,7 +126,7 @@ public class DiaryPublishActivity extends BaseActivity2 {
                                     temperature = weatherNow.temperature;
                                     tv_location.setText(mylocation);
                                     Constant.imageId = Integer.valueOf(weatherNow.code);
-                                    iv_weather.setImageResource(Constant.mImageViewResourceId[Integer.valueOf(weatherNow.code)]);
+                                    iv_weather.setImageResource(Constant.mImageViewResourceId[Constant.imageId]);
                                     tv_temperature.setText(temperature+"℃");
                                     stopLocation();
                                 } else {
@@ -392,17 +393,21 @@ public class DiaryPublishActivity extends BaseActivity2 {
                 if (TextUtils.isEmpty(content)) {//不能没有文字
                     Toast.makeText(getApplicationContext(), "请输入文字内容....", Toast.LENGTH_SHORT).show();
                     return;
-                } else {
+                }else {
                     mProgressDialog = ProgressDialog.show(DiaryPublishActivity.this, null, "加载中，请稍后……");
                     if (Constant.publishImagePaths.size() == 0) {//有文字没有图片
                         type = 1;//仅文字
+                        Log.e("test ziduan", Constant.imageId+"");
                         Diary diary = new Diary();
                         diary.setContent(content);
-                        tv_temperature.setText(temperature+"℃");
                         diary.setAddress(tv_location.getText().toString().trim());
                         diary.setWhether(tv_temperature.getText().toString().trim());
                         diary.setWhether_image(Constant.imageId);
                         diary.setTag(spinnerValue);
+                        diary.setCreate_time(System.currentTimeMillis());
+                        diary.setDate(TimeUtil.getCurrentTime());
+                        diary.setDay(TimeUtil.getCurrentDay());
+                        diary.setUser_message(0);
                         diaryDataBaseOperate.insertToDiary(diary);
                     } else {//有文字也有图片
                         type = 2;//图文

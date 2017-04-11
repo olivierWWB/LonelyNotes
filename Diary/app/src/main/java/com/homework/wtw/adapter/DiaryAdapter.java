@@ -185,18 +185,16 @@ public class DiaryAdapter extends BaseAdapter {
 
             viewHolder.ivMore.setImagesData(itemList);
         }
-
-        String[] dateStr = diariesList.get(position).getCreate_time().split(" ");
-        String date = dateStr[0];
+        String[] date = diariesList.get(position).getDate().split(" ");
 
         viewHolder.textDirection.setText(diariesList.get(position).getTag());
 //        viewHolder.textDate.setText(TimeUtil.getFinalTime(diariesList.get(position).getCreate_time()));
 //        viewHolder.textDate.setText(diariesList.get(position).getCreate_time());
-        viewHolder.textDate.setText(date + "  " + diariesList.get(position).getDay());
+        viewHolder.textDate.setText(date[0] + " " + diariesList.get(position).getDay());
         viewHolder.textContent.setText(diariesList.get(position).getContent());
         viewHolder.textRemarkNum.setText(String.valueOf(diariesList.get(position).getDiaryMessagesList().size()));
         if(diariesList.get(position).getWhether() != null){
-            viewHolder.textWhether.setText(diariesList.get(position).getWhether() + "℃");
+            viewHolder.textWhether.setText(diariesList.get(position).getWhether());
         }else{
             viewHolder.textWhether.setText("100℃");// ℃   - ° C
         }
@@ -205,12 +203,8 @@ public class DiaryAdapter extends BaseAdapter {
         }else{
             viewHolder.textAddress.setText("在梦里");
         }
-//        if(diariesList.get(position).getWhetherImage() != null) {// 天气的小图标！！！！！！！！！
-            String whetherImageName = "whether"+diariesList.get(position).getWhether_image();
-            viewHolder.whetherImage.setImageDrawable(context.getResources().getDrawable(Constant.mImageViewResourceId[diariesList.get(position).getWhether_image()]));
-//        }else{
-//            viewHolder.whetherImage.setImageDrawable(context.getResources().getDrawable(mImageViewResourceId[0]));
-//        }
+        Log.e("position:"+position, diariesList.get(position).getWhether_image()+"");
+        viewHolder.whetherImage.setImageResource(Constant.mImageViewResourceId[diariesList.get(position).getWhether_image()]);
 
         final int id = position;
 
@@ -232,7 +226,7 @@ public class DiaryAdapter extends BaseAdapter {
                 bundle.putString("content", Constant.diariesList.get(id).getContent());
                 bundle.putString("pictures", Constant.diariesList.get(id).getPicture());//图片
                 bundle.putInt("commentNum", Constant.diariesList.get(id).getDiaryMessagesList().size());
-                bundle.putString("date", Constant.diariesList.get(id).getCreate_time());
+                bundle.putString("date", Constant.diariesList.get(id).getDate());
                 bundle.putString("day", Constant.diariesList.get(id).getDay());
                 bundle.putString("address", Constant.diariesList.get(id).getAddress());
                 bundle.putString("whether", Constant.diariesList.get(id).getWhether());
