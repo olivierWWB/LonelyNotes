@@ -118,7 +118,7 @@ public class DiaryListActivity extends BaseActivity implements AbsListView.OnScr
                     Bundle bundle = new Bundle();
                     bundle.putInt("fromwhere", 0);//从列表页点item跳过去的
                     bundle.putInt("diaryId", Constant.diariesList.get(i).getDiary_id());
-                    bundle.putString("tag", Constant.diariesList.get(i).getTag_content());
+                    bundle.putString("tag", Constant.diariesList.get(i).getTag());
                     bundle.putString("content", Constant.diariesList.get(i).getContent());
                     bundle.putString("pictures", Constant.diariesList.get(i).getPicture());//图片
                     bundle.putInt("commentNum", Constant.diariesList.get(i).getDiaryMessagesList().size());
@@ -262,7 +262,7 @@ public class DiaryListActivity extends BaseActivity implements AbsListView.OnScr
                 diaryMessages.add(diaryMessage);
             }
 
-            Diary diary = new Diary(i+1,"这个可以写好多好多好多好多好多好多好多好多好多好多好多好多字","生活","2017-03-06 01:01:01","picture","黑龙江省牡丹江市","20",0, diaryMessages, "星期二");
+            Diary diary = new Diary();
             Constant.diariesList.add(diary);
         }
 

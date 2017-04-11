@@ -34,6 +34,9 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.homework.wtw.database.DiaryDataBaseOperate;
+import com.homework.wtw.diary.DiaryApplication;
+import com.homework.wtw.diary.MainActivity;
 import com.thinkpage.lib.api.*;
 
 
@@ -57,6 +60,7 @@ import me.iwf.photopicker.PhotoPicker;
 import me.iwf.photopicker.PhotoPreview;
 
 public class DiaryPublishActivity extends BaseActivity2 {
+    private DiaryDataBaseOperate diaryDataBaseOperate;
 //    private static final int PHOTO_REQUEST_TAKEPHOTO = 1;// 拍照
 //    private static final int PHOTO_REQUEST_GALLERY = 2;// 从相册中选择
     private static final int REQUEST_CAMERA_CODE = 10;
@@ -120,6 +124,7 @@ public class DiaryPublishActivity extends BaseActivity2 {
                                     //weatherNow 就是返回的当前天气信息。
                                     temperature = weatherNow.temperature;
                                     tv_location.setText(mylocation);
+                                    Constant.imageId = Integer.valueOf(weatherNow.code);
                                     iv_weather.setImageResource(Constant.mImageViewResourceId[Integer.valueOf(weatherNow.code)]);
                                     tv_temperature.setText(temperature+"℃");
                                     stopLocation();
@@ -139,7 +144,7 @@ public class DiaryPublishActivity extends BaseActivity2 {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_diary_publish);//初始化定位
         weatherManager.initWithKeyAndUserId("stgqeqzd7smkfdzn","U831694032");
-
+        diaryDataBaseOperate = new DiaryDataBaseOperate(DiaryApplication.diarySQLiteOpenHelper.getWritableDatabase());
         initLocation();
 
 //        container = (LinearLayout) findViewById(R.id.container);
@@ -391,6 +396,14 @@ public class DiaryPublishActivity extends BaseActivity2 {
                     mProgressDialog = ProgressDialog.show(DiaryPublishActivity.this, null, "加载中，请稍后……");
                     if (Constant.publishImagePaths.size() == 0) {//有文字没有图片
                         type = 1;//仅文字
+                        Diary diary = new Diary();
+                        diary.setContent(content);
+                        tv_temperature.setText(temperature+"℃");
+                        diary.setAddress(tv_location.getText().toString().trim());
+                        diary.setWhether(tv_temperature.getText().toString().trim());
+                        diary.setWhether_image(Constant.imageId);
+                        diary.setTag(spinnerValue);
+                        diaryDataBaseOperate.insertToDiary(diary);
                     } else {//有文字也有图片
                         type = 2;//图文
 
@@ -419,7 +432,9 @@ public class DiaryPublishActivity extends BaseActivity2 {
                     //那如果我非要发一样的呢，你还不让我发了，凭啥，能的你
                     mSendMsgTextView.setFocusable(false);
                     mSendMsgTextView.setClickable(false);
-                    setTopic(type, content, fileList, spinnerValue, "北京市", "20", 0);
+                    Intent intent = new Intent(DiaryPublishActivity.this,  MainActivity.class);
+                    startActivity(intent);
+                    //setTopic(type, content, fileList, spinnerValue, "北京市", "20", 0);
 
                 }
             }
@@ -559,32 +574,32 @@ public class DiaryPublishActivity extends BaseActivity2 {
     }
 */
 
-    private void setTopic(int type, String content, List<File> fileList, String tag, String address, String whether, int whetherImage) {
-
-        int maxID = Constant.diariesList.get(Constant.diariesList.size()-1).getDiary_id();
-//        int maxID = Constant.diariesList.size();
-        String pictures = Constant.imagePathAli;
-
-        ArrayList<DiaryMessage> diaryMessages = new ArrayList<>();
-        Diary diary = new Diary(maxID+1, content,tag, TimeUtil.getCurrentTime(),pictures, address, whether, whetherImage, diaryMessages, TimeUtil.getCurrentDay());
-        Constant.diariesList.add(0, diary);
-
-        DiaryListActivity.diaryAdapter.notifyDataSetChanged();
-
-        //清空本地暂存的小图文件
-        for (int i = 0; i < Constant.tempPublishImages.size(); i++) {
-            File tempFile = new File(Constant.tempPublishImages.get(i));
-            PictureUtil.deleteFile(tempFile);
-        }
-        Constant.tempPublishImages.clear();
-        Constant.publishImagePaths.clear();
-
-        //既然已经发出去了。那就让发送按钮可以点吧。行吧。
-        mSendMsgTextView.setFocusable(true);
-        mSendMsgTextView.setClickable(true);
-
-        finish();
-
-        mProgressDialog.dismiss();
-    }
+//    private void setTopic(int type, String content, List<File> fileList, String tag, String address, String whether, int whetherImage) {
+//
+//        int maxID = Constant.diariesList.get(Constant.diariesList.size()-1).getDiary_id();
+////        int maxID = Constant.diariesList.size();
+//        String pictures = Constant.imagePathAli;
+//
+//        ArrayList<DiaryMessage> diaryMessages = new ArrayList<>();
+//        Diary diary = new Diary(maxID+1, content,tag, TimeUtil.getCurrentTime(),pictures, address, whether, whetherImage, diaryMessages, TimeUtil.getCurrentDay());
+//        Constant.diariesList.add(0, diary);
+//
+//        DiaryListActivity.diaryAdapter.notifyDataSetChanged();
+//
+//        //清空本地暂存的小图文件
+//        for (int i = 0; i < Constant.tempPublishImages.size(); i++) {
+//            File tempFile = new File(Constant.tempPublishImages.get(i));
+//            PictureUtil.deleteFile(tempFile);
+//        }
+//        Constant.tempPublishImages.clear();
+//        Constant.publishImagePaths.clear();
+//
+//        //既然已经发出去了。那就让发送按钮可以点吧。行吧。
+//        mSendMsgTextView.setFocusable(true);
+//        mSendMsgTextView.setClickable(true);
+//
+//        finish();
+//
+//        mProgressDialog.dismiss();
+//    }
 }

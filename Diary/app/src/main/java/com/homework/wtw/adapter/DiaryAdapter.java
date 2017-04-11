@@ -189,7 +189,7 @@ public class DiaryAdapter extends BaseAdapter {
         String[] dateStr = diariesList.get(position).getCreate_time().split(" ");
         String date = dateStr[0];
 
-        viewHolder.textDirection.setText(diariesList.get(position).getTag_content());
+        viewHolder.textDirection.setText(diariesList.get(position).getTag());
 //        viewHolder.textDate.setText(TimeUtil.getFinalTime(diariesList.get(position).getCreate_time()));
 //        viewHolder.textDate.setText(diariesList.get(position).getCreate_time());
         viewHolder.textDate.setText(date + "  " + diariesList.get(position).getDay());
@@ -214,7 +214,7 @@ public class DiaryAdapter extends BaseAdapter {
 
         final int id = position;
 
-        if (diariesList.get(position).getTag_content() == null || diariesList.get(position).getTag_content().equals("")) {
+        if (diariesList.get(position).getTag() == null || diariesList.get(position).getTag().equals("")) {
             viewHolder.linearDirection.setVisibility(View.GONE);
         } else {
             viewHolder.linearDirection.setVisibility(View.VISIBLE);
@@ -228,7 +228,7 @@ public class DiaryAdapter extends BaseAdapter {
                 Bundle bundle = new Bundle();
                 bundle.putInt("fromwhere", 1);// 从列表页点评论按钮跳过去的
                 bundle.putInt("diaryId", Constant.diariesList.get(id).getDiary_id());
-                bundle.putString("tag", Constant.diariesList.get(id).getTag_content());
+                bundle.putString("tag", Constant.diariesList.get(id).getTag());
                 bundle.putString("content", Constant.diariesList.get(id).getContent());
                 bundle.putString("pictures", Constant.diariesList.get(id).getPicture());//图片
                 bundle.putInt("commentNum", Constant.diariesList.get(id).getDiaryMessagesList().size());

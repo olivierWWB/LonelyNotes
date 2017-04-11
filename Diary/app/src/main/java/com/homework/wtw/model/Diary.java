@@ -19,36 +19,11 @@ public class Diary {
     private String create_time;
     private String day;
     private int diary_id;
-    private String tag_content;
     private String tag;
     private int user_message;
     private String address;
     private String whether;
     private int whether_image;
-
-
-    public Diary(int diary_id, String content, String tag, String create_time, String picture,  String address, String whether, int whetherImage, ArrayList<DiaryMessage> diaryMessages){
-        this.diary_id = diary_id;
-        this.content = content;
-        this.tag_content = tag;
-        this.create_time = create_time;
-        this.picture = picture;
-        this.address = address;
-        this.whether = whether;
-        this.diaryMessagesList = diaryMessages;
-    }
-    public Diary(int diary_id, String content, String tag, String create_time, String picture,  String address, String whether, int whether_image, ArrayList<DiaryMessage> diaryMessages,  String day){
-        this.diary_id = diary_id;
-        this.content = content;
-        this.tag_content = tag;
-        this.create_time = create_time;
-        this.picture = picture;
-        this.address = address;
-        this.whether = whether;
-        this.diaryMessagesList = diaryMessages;
-        this.whether_image = whether_image;
-        this.day = day;
-    }
 
 
     public String getPicture() {
@@ -85,14 +60,6 @@ public class Diary {
 
     public void setDistance(double distance) {
         this.distance = distance;
-    }
-
-    public String getTag_content() {
-        return tag_content;
-    }
-
-    public void setTag_content(String tag_content) {
-        this.tag_content = tag_content;
     }
 
     public String getTag() {
