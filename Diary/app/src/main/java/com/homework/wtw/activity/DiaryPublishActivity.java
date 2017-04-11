@@ -437,9 +437,9 @@ public class DiaryPublishActivity extends BaseActivity2 {
                     //那如果我非要发一样的呢，你还不让我发了，凭啥，能的你
                     mSendMsgTextView.setFocusable(false);
                     mSendMsgTextView.setClickable(false);
-                    Intent intent = new Intent(DiaryPublishActivity.this,  MainActivity.class);
-                    startActivity(intent);
-                    //setTopic(type, content, fileList, spinnerValue, "北京市", "20", 0);
+//                    Intent intent = new Intent(DiaryPublishActivity.this,  MainActivity.class);
+//                    startActivity(intent);
+                    setTopic();
 
                 }
             }
@@ -487,25 +487,26 @@ public class DiaryPublishActivity extends BaseActivity2 {
 
 
 
-    private void setTopic(int type, String content, List<File> fileList, String tag, String address, String whether, int whetherImage) {
+    private void setTopic() {
 
-        int maxID = Constant.diariesList.get(Constant.diariesList.size()-1).getDiary_id();
-//        int maxID = Constant.diariesList.size();
-        String pictures = Constant.imagePathAli;
-
-        ArrayList<DiaryMessage> diaryMessages = new ArrayList<>();
-        Diary diary = new Diary(maxID+1, content,tag, TimeUtil.getCurrentTime(),pictures, address, whether, whetherImage, diaryMessages, TimeUtil.getCurrentDay());
-        Constant.diariesList.add(0, diary);
-
+//        int maxID = Constant.diariesList.get(Constant.diariesList.size()-1).getDiary_id();
+////        int maxID = Constant.diariesList.size();
+//        String pictures = Constant.imagePathAli;
+//
+//        ArrayList<DiaryMessage> diaryMessages = new ArrayList<>();
+//        Diary diary = new Diary(maxID+1, content,tag, TimeUtil.getCurrentTime(),pictures, address, whether, whetherImage, diaryMessages, TimeUtil.getCurrentDay());
+//        Constant.diariesList.add(0, diary);
+        Constant.diariesList = diaryDataBaseOperate.findAll();
+        Log.e("count", Constant.diariesList.size()+"");
+        DiaryListActivity.diaryAdapter.setData(Constant.diariesList);
         DiaryListActivity.diaryAdapter.notifyDataSetChanged();
-
-        //清空本地暂存的小图文件
-        for (int i = 0; i < Constant.tempPublishImages.size(); i++) {
-            File tempFile = new File(Constant.tempPublishImages.get(i));
-            PictureUtil.deleteFile(tempFile);
-        }
-        Constant.tempPublishImages.clear();
-        Constant.publishImagePaths.clear();
+//        //清空本地暂存的小图文件
+//        for (int i = 0; i < Constant.tempPublishImages.size(); i++) {
+//            File tempFile = new File(Constant.tempPublishImages.get(i));
+//            PictureUtil.deleteFile(tempFile);
+//        }
+//        Constant.tempPublishImages.clear();
+//        Constant.publishImagePaths.clear();
 
         //既然已经发出去了。那就让发送按钮可以点吧。行吧。
         mSendMsgTextView.setFocusable(true);
