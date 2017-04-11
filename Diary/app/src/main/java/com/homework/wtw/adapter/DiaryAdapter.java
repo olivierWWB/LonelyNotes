@@ -117,7 +117,7 @@ public class DiaryAdapter extends BaseAdapter {
         Log.i("DiaryAdapter","handleImage");
         for(int i=0; i<diariesList.size(); i++){
             ArrayList<Image> pictureItemList = new ArrayList<>();
-            for(int j=0; j<i; j++){
+            for(int j=i; j<i; j++){
                 pictureItemList.add(new Image(Constant.imagePathAli,150,150));
             }
             imageList.add(pictureItemList);

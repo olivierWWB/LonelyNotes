@@ -485,126 +485,34 @@ public class DiaryPublishActivity extends BaseActivity2 {
         return false;
     }
 
-/*
 
-    private void setTopic(int type, String content, List<File> fileList, int tagID, String tag, double longitudes, double latitudes) {
-        RequestQueue requestQueue = Constant.queue;
 
-        String httpurl = Constant.MY_UTL + "huati/add";
+    private void setTopic(int type, String content, List<File> fileList, String tag, String address, String whether, int whetherImage) {
 
-        params.put("user_id", String.valueOf(User.getInstance().getUser_id()));
-        params.put("type", String.valueOf(type));
-        params.put("content", content);
-        params.put("tag", String.valueOf(tagID));
-        params.put("longitudes", String.valueOf(Constant.locationLongitude));
-        params.put("latitudes", String.valueOf(Constant.locationLatitude));
+        int maxID = Constant.diariesList.get(Constant.diariesList.size()-1).getDiary_id();
+//        int maxID = Constant.diariesList.size();
+        String pictures = Constant.imagePathAli;
 
-        final String myContent = content;
-        String tempTag = tag;
-        if (tagID == 0) {//没选方向
-            tempTag = "";
+        ArrayList<DiaryMessage> diaryMessages = new ArrayList<>();
+        Diary diary = new Diary(maxID+1, content,tag, TimeUtil.getCurrentTime(),pictures, address, whether, whetherImage, diaryMessages, TimeUtil.getCurrentDay());
+        Constant.diariesList.add(0, diary);
+
+        DiaryListActivity.diaryAdapter.notifyDataSetChanged();
+
+        //清空本地暂存的小图文件
+        for (int i = 0; i < Constant.tempPublishImages.size(); i++) {
+            File tempFile = new File(Constant.tempPublishImages.get(i));
+            PictureUtil.deleteFile(tempFile);
         }
-        final String myTag = tempTag;
+        Constant.tempPublishImages.clear();
+        Constant.publishImagePaths.clear();
 
+        //既然已经发出去了。那就让发送按钮可以点吧。行吧。
+        mSendMsgTextView.setFocusable(true);
+        mSendMsgTextView.setClickable(true);
 
-        MultipartRequest request = new MultipartRequest(httpurl, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                Toast.makeText(getApplicationContext(), "上传成功啦～", Toast.LENGTH_SHORT).show();
-                Log.i(TAG, "success,response = " + response);
+        finish();
 
-                try {
-                    JSONObject myJsonObject = new JSONObject(response);
-                    JSONObject jo = myJsonObject.getJSONObject("phone_topic");
-                    String pictures = jo.getString("picture");
-                    int topicID = jo.getInt("phone_topic_id");
-//                    Log.i(TAG,"ResponsePicure==="+pictures);
-                    //那个返回的数据基本什么都有了哈哈哈
-                    Gson gson = new Gson();
-                    Topic topic = gson.fromJson(jo.toString(), Topic.class);
-
-                    //添加空的评论和喜欢列表，不然会空指针的哟哟哟～～～
-                    ArrayList<TopicMessage> topicMessages = new ArrayList<>();
-                    topic.setTopicMessagesList(topicMessages);
-
-                    ArrayList<TopicLike> topicLikes = new ArrayList<>();
-                    topic.setTopicLikesList(topicLikes);
-
-                    //返回数据里没有用户名和头像。
-                    topic.setUser_name(User.getInstance().getUser_name());
-                    topic.setUser_portrait(User.getInstance().getPortrait());
-                    //也没有标签内容。唉.
-                    topic.setTag_content(myTag);
-                    topic.setTag_id(Integer.parseInt(topic.getTag()));
-
-//                    Topic topic = new Topic(topicID, User.getInstance().getUser_name(),User.getInstance().getPortrait(),myContent,myTag,TopicTimeUtil.getNowTime(),pictures);
-                    allTopicsList.add(0, topic);
-
-//                    TopicTimeFragment.topicAdapter.notifyDataSetChanged();
-                    //清空本地暂存的小图文件
-                    for (int i = 0; i < Constant.tempPublishImages.size(); i++) {
-                        File tempFile = new File(Constant.tempPublishImages.get(i));
-                        PictureUtil.deleteFile(tempFile);
-                    }
-                    Constant.tempPublishImages.clear();
-                    Constant.publishImagePaths.clear();
-
-                    //既然已经发出去了。那就让发送按钮可以点吧。行吧。
-                    mSendMsgTextView.setFocusable(true);
-                    mSendMsgTextView.setClickable(true);
-
-                    Constant.isNewOfTopic = true;
-
-                    finish();
-
-                    mProgressDialog.dismiss();
-
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                mProgressDialog.dismiss();
-                Toast.makeText(getApplicationContext(), "上传失败啦>_< 一会再试试～ ", Toast.LENGTH_SHORT).show();
-                Log.i(TAG, "error,response = " + error.getMessage());
-            }
-        }, "picture", fileList, params);
-
-        requestQueue.add(request);
-
+        mProgressDialog.dismiss();
     }
-*/
-
-//    private void setTopic(int type, String content, List<File> fileList, String tag, String address, String whether, int whetherImage) {
-//
-//        int maxID = Constant.diariesList.get(Constant.diariesList.size()-1).getDiary_id();
-////        int maxID = Constant.diariesList.size();
-//        String pictures = Constant.imagePathAli;
-//
-//        ArrayList<DiaryMessage> diaryMessages = new ArrayList<>();
-//        Diary diary = new Diary(maxID+1, content,tag, TimeUtil.getCurrentTime(),pictures, address, whether, whetherImage, diaryMessages, TimeUtil.getCurrentDay());
-//        Constant.diariesList.add(0, diary);
-//
-//        DiaryListActivity.diaryAdapter.notifyDataSetChanged();
-//
-//        //清空本地暂存的小图文件
-//        for (int i = 0; i < Constant.tempPublishImages.size(); i++) {
-//            File tempFile = new File(Constant.tempPublishImages.get(i));
-//            PictureUtil.deleteFile(tempFile);
-//        }
-//        Constant.tempPublishImages.clear();
-//        Constant.publishImagePaths.clear();
-//
-//        //既然已经发出去了。那就让发送按钮可以点吧。行吧。
-//        mSendMsgTextView.setFocusable(true);
-//        mSendMsgTextView.setClickable(true);
-//
-//        finish();
-//
-//        mProgressDialog.dismiss();
-//    }
 }

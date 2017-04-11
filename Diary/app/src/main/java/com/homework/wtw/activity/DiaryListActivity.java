@@ -31,7 +31,7 @@ import com.homework.wtw.model.Diary;
 import com.homework.wtw.model.DiaryMessage;
 import com.homework.wtw.util.Constant;
 import com.homework.wtw.view.ProgressWheel;
-import com.squareup.leakcanary.RefWatcher;
+//import com.squareup.leakcanary.RefWatcher;
 
 
 /**
@@ -205,8 +205,8 @@ public class DiaryListActivity extends BaseActivity implements AbsListView.OnScr
 
     @Override public void onDestroy() {
         super.onDestroy();
-        RefWatcher refWatcher = DiaryApplication.getRefWatcher(this);
-        refWatcher.watch(this);
+//        RefWatcher refWatcher = DiaryApplication.getRefWatcher(this);
+//        refWatcher.watch(this);
     }
 
     private void loadMoreData() { //加载更多数据
