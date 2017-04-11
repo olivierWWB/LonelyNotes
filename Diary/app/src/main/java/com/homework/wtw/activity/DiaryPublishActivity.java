@@ -486,7 +486,7 @@ public class DiaryPublishActivity extends BaseActivity2 {
     }
 
 
-
+/*
     private void setTopic(int type, String content, List<File> fileList, String tag, String address, String whether, int whetherImage) {
 
         int maxID = Constant.diariesList.get(Constant.diariesList.size()-1).getDiary_id();
@@ -515,4 +515,5 @@ public class DiaryPublishActivity extends BaseActivity2 {
 
         mProgressDialog.dismiss();
     }
+    */
 }
