@@ -31,8 +31,8 @@ public class DiaryDataBaseOperate {
 		values.put(DiarySQLiteOpenHelper.COL_TAG, diary.getTag());
 		values.put(DiarySQLiteOpenHelper.COL_CONTENT, diary.getContent());
 		values.put(DiarySQLiteOpenHelper.COL_ADDRESS, diary.getAddress());
-		values.put(DiarySQLiteOpenHelper.COL_WEATHER, diary.getWhether());
-		values.put(DiarySQLiteOpenHelper.COL_WEATHERIMAGE, diary.getWhether_image());
+		values.put(DiarySQLiteOpenHelper.COL_WEATHER, diary.getWeather());
+		values.put(DiarySQLiteOpenHelper.COL_WEATHERIMAGE, diary.getWeather_image());
 		values.put(DiarySQLiteOpenHelper.COL_DAY, diary.getDay());
 		values.put(DiarySQLiteOpenHelper.COL_DATE, diary.getDate());
 		values.put(DiarySQLiteOpenHelper.COL_TIME, diary.getCreate_time());
@@ -40,6 +40,23 @@ public class DiaryDataBaseOperate {
 		return mDB.insert(DiarySQLiteOpenHelper.DATABASE_TABLE_DIARY, null,
 				values);
 	}
+
+	public long insertToDiaryWithPicture(Diary diary) {
+		ContentValues values = new ContentValues();
+		values.put(DiarySQLiteOpenHelper.COL_TAG, diary.getTag());
+		values.put(DiarySQLiteOpenHelper.COL_CONTENT, diary.getContent());
+		values.put(DiarySQLiteOpenHelper.COL_ADDRESS, diary.getAddress());
+		values.put(DiarySQLiteOpenHelper.COL_WEATHER, diary.getWeather());
+		values.put(DiarySQLiteOpenHelper.COL_WEATHERIMAGE, diary.getWeather_image());
+		values.put(DiarySQLiteOpenHelper.COL_DAY, diary.getDay());
+		values.put(DiarySQLiteOpenHelper.COL_DATE, diary.getDate());
+		values.put(DiarySQLiteOpenHelper.COL_TIME, diary.getCreate_time());
+		values.put(DiarySQLiteOpenHelper.COL_USERMESSAGE, diary.getUser_message());
+		values.put(DiarySQLiteOpenHelper.COL_PICTURE, diary.getPicture());
+		return mDB.insert(DiarySQLiteOpenHelper.DATABASE_TABLE_DIARY, null,
+				values);
+	}
+
 	public long publishMessage(DiaryMessage diaryMessage) {
 		ContentValues values = new ContentValues();
 		values.put(DiarySQLiteOpenHelper.COL_MCONTENT, diaryMessage.getContent());
@@ -120,11 +137,12 @@ public class DiaryDataBaseOperate {
 				diary.setAddress(cursor.getString(cursor.getColumnIndex(DiarySQLiteOpenHelper.COL_ADDRESS)));
 				diary.setDate(cursor.getString(cursor.getColumnIndex(DiarySQLiteOpenHelper.COL_DATE)));
 				diary.setDay(cursor.getString(cursor.getColumnIndex(DiarySQLiteOpenHelper.COL_DAY)));
-				diary.setWhether(cursor.getString(cursor.getColumnIndex(DiarySQLiteOpenHelper.COL_WEATHER)));
-				diary.setWhether_image(cursor.getInt(cursor.getColumnIndex(DiarySQLiteOpenHelper.COL_WEATHERIMAGE)));
+				diary.setWeather(cursor.getString(cursor.getColumnIndex(DiarySQLiteOpenHelper.COL_WEATHER)));
+				diary.setWeather_image(cursor.getInt(cursor.getColumnIndex(DiarySQLiteOpenHelper.COL_WEATHERIMAGE)));
 				diary.setUser_message(cursor.getInt(cursor.getColumnIndex(DiarySQLiteOpenHelper.COL_USERMESSAGE)));
 				diary.setTag(cursor.getString(cursor.getColumnIndex(DiarySQLiteOpenHelper.COL_TAG)));
 				diary.setContent(cursor.getString(cursor.getColumnIndex(DiarySQLiteOpenHelper.COL_CONTENT)));
+				diary.setPicture(cursor.getBlob(cursor.getColumnIndex(DiarySQLiteOpenHelper.COL_PICTURE)));
 			}
 			cursor.close();
 		}
@@ -144,11 +162,12 @@ public class DiaryDataBaseOperate {
 				diary.setAddress(cursor.getString(cursor.getColumnIndex(DiarySQLiteOpenHelper.COL_ADDRESS)));
 				diary.setDate(cursor.getString(cursor.getColumnIndex(DiarySQLiteOpenHelper.COL_DATE)));
 				diary.setDay(cursor.getString(cursor.getColumnIndex(DiarySQLiteOpenHelper.COL_DAY)));
-				diary.setWhether(cursor.getString(cursor.getColumnIndex(DiarySQLiteOpenHelper.COL_WEATHER)));
-				diary.setWhether_image(cursor.getInt(cursor.getColumnIndex(DiarySQLiteOpenHelper.COL_WEATHERIMAGE)));
+				diary.setWeather(cursor.getString(cursor.getColumnIndex(DiarySQLiteOpenHelper.COL_WEATHER)));
+				diary.setWeather_image(cursor.getInt(cursor.getColumnIndex(DiarySQLiteOpenHelper.COL_WEATHERIMAGE)));
 				diary.setUser_message(cursor.getInt(cursor.getColumnIndex(DiarySQLiteOpenHelper.COL_USERMESSAGE)));
 				diary.setTag(cursor.getString(cursor.getColumnIndex(DiarySQLiteOpenHelper.COL_TAG)));
 				diary.setContent(cursor.getString(cursor.getColumnIndex(DiarySQLiteOpenHelper.COL_CONTENT)));
+				diary.setPicture(cursor.getBlob(cursor.getColumnIndex(DiarySQLiteOpenHelper.COL_PICTURE)));
 				diaryList.add(diary);
 			}
 			cursor.close();

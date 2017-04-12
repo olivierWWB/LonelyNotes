@@ -15,6 +15,7 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.v7.widget.Toolbar;
@@ -395,12 +396,11 @@ public class DiaryPublishActivity extends BaseActivity2 {
                     mProgressDialog = ProgressDialog.show(DiaryPublishActivity.this, null, "加载中，请稍后……");
                     if (Constant.publishImagePaths.size() == 0) {//有文字没有图片
                         type = 1;//仅文字
-                        Log.e("test ziduan", Constant.imageId+"");
                         Diary diary = new Diary();
                         diary.setContent(content);
                         diary.setAddress(tv_location.getText().toString().trim());
-                        diary.setWhether(tv_temperature.getText().toString().trim());
-                        diary.setWhether_image(Constant.imageId);
+                        diary.setWeather(tv_temperature.getText().toString().trim());
+                        diary.setWeather_image(Constant.imageId);
                         diary.setTag(spinnerValue);
                         diary.setCreate_time(System.currentTimeMillis());
                         diary.setDate(TimeUtil.getCurrentTime());
@@ -409,26 +409,40 @@ public class DiaryPublishActivity extends BaseActivity2 {
                         diaryDataBaseOperate.insertToDiary(diary);
                     } else {//有文字也有图片
                         type = 2;//图文
-
+                        Log.e("2222","2222");
+                        Bitmap bmp = PictureUtil.getSmallBitmap(Constant.publishImagePaths.get(0));
+                        byte[] picture = PictureUtil.bmpToByteArray(bmp, true);
+                        Diary diary = new Diary();
+                        diary.setContent(content);
+                        diary.setAddress(tv_location.getText().toString().trim());
+                        diary.setWeather(tv_temperature.getText().toString().trim());
+                        diary.setWeather_image(Constant.imageId);
+                        diary.setTag(spinnerValue);
+                        diary.setCreate_time(System.currentTimeMillis());
+                        diary.setDate(TimeUtil.getCurrentTime());
+                        diary.setDay(TimeUtil.getCurrentDay());
+                        diary.setUser_message(0);
+                        diary.setPicture(picture);
+                        diaryDataBaseOperate.insertToDiaryWithPicture(diary);
                         //压缩图片
-                        for (int i = 0; i < Constant.publishImagePaths.size(); i++) {
-                            String imageUrl = Constant.publishImagePaths.get(i);
-                            String imageName_temp = imageUrl.substring(imageUrl.lastIndexOf("/") + 1);
-                            String fileName = filename + String.valueOf("small_" + imageName_temp);
-                            File file = new File(fileName);
-                            Constant.tempPublishImages.add(fileName);
-                            if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
-                                if (!file.getParentFile().exists()) {
-                                    file.getParentFile().mkdirs();
-                                }
-                            }
-                            // 生成小图
-                            PictureUtil.save(imageUrl, 200, fileName);
-
-//                            save(imageUrl, 60, "small_" + imageName_temp);
-
-                            fileList.add(file);
-                        }
+//                        for (int i = 0; i < Constant.publishImagePaths.size(); i++) {
+//                            String imageUrl = Constant.publishImagePaths.get(i);
+//                            String imageName_temp = imageUrl.substring(imageUrl.lastIndexOf("/") + 1);
+//                            String fileName = filename + String.valueOf("small_" + imageName_temp);
+//                            File file = new File(fileName);
+//                            Constant.tempPublishImages.add(fileName);
+//                            if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
+//                                if (!file.getParentFile().exists()) {
+//                                    file.getParentFile().mkdirs();
+//                                }
+//                            }
+//                            // 生成小图
+//                            PictureUtil.save(imageUrl, 200, fileName);
+//
+////                            save(imageUrl, 60, "small_" + imageName_temp);
+//
+//                            fileList.add(file);
+//                        }
                     }
 
                     //点了一次发送之后就别点了啊啊啊，要不然一下子发出去好多条一样的怎么办!

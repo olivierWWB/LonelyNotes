@@ -127,10 +127,10 @@ public class DiaryAdapter extends BaseAdapter {
             viewHolder.ivMore = (NineGridlayout) convertView.findViewById(R.id.iv_ngrid_layout);
             viewHolder.ivOne = (CustomImageView) convertView.findViewById(R.id.iv_oneimage);
             viewHolder.commentImage = (ImageView) convertView.findViewById(R.id.imageView_remark);
-            viewHolder.whetherImage = (ImageView) convertView.findViewById(R.id.imageView_whether);
+            viewHolder.weatherImage = (ImageView) convertView.findViewById(R.id.imageView_weather);
             viewHolder.linearDirection = (LinearLayout) convertView.findViewById(R.id.linear_direction);
             viewHolder.textContent = (TextView) convertView.findViewById(R.id.textview_detail);
-            viewHolder.textWhether = (TextView) convertView.findViewById(R.id.textView_whether);
+            viewHolder.textWeather = (TextView) convertView.findViewById(R.id.textView_weather);
             viewHolder.textRemarkNum = (TextView) convertView.findViewById(R.id.textView_num_remark);
             viewHolder.textAddress = (TextView) convertView.findViewById(R.id.textView_topic_address);
             viewHolder.textDate = (TextView) convertView.findViewById(R.id.textView_date);
@@ -188,18 +188,18 @@ public class DiaryAdapter extends BaseAdapter {
         viewHolder.textDate.setText(date[0] + " " + diariesList.get(position).getDay());
         viewHolder.textContent.setText(diariesList.get(position).getContent());
         viewHolder.textRemarkNum.setText(String.valueOf(diariesList.get(position).getUser_message()));
-        if(diariesList.get(position).getWhether() != null){
-            viewHolder.textWhether.setText(diariesList.get(position).getWhether());
+        if(diariesList.get(position).getWeather() != null){
+            viewHolder.textWeather.setText(diariesList.get(position).getWeather());
         }else{
-            viewHolder.textWhether.setText("100℃");// ℃   - ° C
+            viewHolder.textWeather.setText("100℃");// ℃   - ° C
         }
         if(diariesList.get(position).getAddress() != null) {
             viewHolder.textAddress.setText(diariesList.get(position).getAddress());
         }else{
             viewHolder.textAddress.setText("在梦里");
         }
-        Log.e("position:"+position, diariesList.get(position).getWhether_image()+"");
-        viewHolder.whetherImage.setImageResource(Constant.mImageViewResourceId[diariesList.get(position).getWhether_image()]);
+        Log.e("position:"+position, diariesList.get(position).getWeather_image()+"");
+        viewHolder.weatherImage.setImageResource(Constant.mImageViewResourceId[diariesList.get(position).getWeather_image()]);
 
         final int id = position;
 
@@ -217,14 +217,6 @@ public class DiaryAdapter extends BaseAdapter {
                 Bundle bundle = new Bundle();
                 bundle.putInt("fromwhere", 1);// 从列表页点评论按钮跳过去的
                 bundle.putInt("diaryId", Constant.diariesList.get(id).getDiary_id());
-                bundle.putString("tag", Constant.diariesList.get(id).getTag());
-                bundle.putString("content", Constant.diariesList.get(id).getContent());
-                bundle.putString("pictures", Constant.diariesList.get(id).getPicture());//图片
-                bundle.putInt("commentNum", Constant.diariesList.get(id).getDiaryMessagesList().size());
-                bundle.putString("date", Constant.diariesList.get(id).getDate());
-                bundle.putString("day", Constant.diariesList.get(id).getDay());
-                bundle.putString("address", Constant.diariesList.get(id).getAddress());
-                bundle.putString("whether", Constant.diariesList.get(id).getWhether());
                 intent.putExtras(bundle);
                 context.startActivity(intent);
             }
@@ -280,8 +272,8 @@ public class DiaryAdapter extends BaseAdapter {
     class ViewHolder {
         public NineGridlayout ivMore;
         public CustomImageView ivOne;
-        public ImageView commentImage, whetherImage;
-        public TextView textContent, textAddress, textDate, textRemarkNum, textWhether,textDirection;
+        public ImageView commentImage, weatherImage;
+        public TextView textContent, textAddress, textDate, textRemarkNum, textWeather,textDirection;
         public LinearLayout linearDirection, linearComment;
     }
 

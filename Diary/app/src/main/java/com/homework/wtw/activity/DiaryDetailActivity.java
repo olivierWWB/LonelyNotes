@@ -12,6 +12,8 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -75,8 +77,8 @@ public class DiaryDetailActivity extends BaseActivity {
     private ProgressWheel progressWheel;
     private SwipeRefreshLayout swipeRefreshLayout;
 
-    private ImageView remarkImage, whetherImage;//
-    private TextView textContent, textDate, textAddress, textWhether, textRemarkNum, textTag;
+    private ImageView remarkImage, weatherImagev;//
+    private TextView textContent, textDate, textAddress, textWeather, textRemarkNum, textTag;
     private List<Image> imagesList;
     private MyListView remarkListView;
     private NineGridlayout ivMore;
@@ -84,6 +86,7 @@ public class DiaryDetailActivity extends BaseActivity {
     private EditText commentEdit;
     private Button commentButton;
     private LinearLayout linearComment;
+    private Bitmap bmp;
 
     private DiaryCommentAdapter commentAdapter;
     private ArrayList<String> pictureList = new ArrayList<>();
@@ -94,7 +97,7 @@ public class DiaryDetailActivity extends BaseActivity {
 
     private String tag;
     private String content;
-    private String pictures;
+    private byte[] pictures;
     private int commentNum = 0;
     private String date,address,weather,day;
     private int weatherImage;
@@ -129,8 +132,10 @@ public class DiaryDetailActivity extends BaseActivity {
         date = diary.getDate();
         day = diary.getDay();
         address = diary.getAddress();
-        weather = diary.getWhether();
-        weatherImage = diary.getWhether_image();
+        weather = diary.getWeather();
+        weatherImage = diary.getWeather_image();
+        pictures = diary.getPicture();
+        bmp = BitmapFactory.decodeByteArray(pictures, 0, pictures.length);
         fromWhere = intent.getIntExtra("fromwhere", -1);
 
         diaryCommentsList = diaryDataBaseOperate.findMessageByDiaryId(diaryID);
@@ -151,6 +156,7 @@ public class DiaryDetailActivity extends BaseActivity {
 
         toolbar = initToolBar(date, day);
         mImageView = new ImageView(this);
+        //.setImageBitmap(bmp);//
         initMenu(toolbar);
 
         //双击toolbar回到列表顶端
@@ -188,9 +194,9 @@ public class DiaryDetailActivity extends BaseActivity {
         textAddress = (TextView)findViewById(R.id.textView_diary_detail_address);
         textContent = (TextView)findViewById(R.id.textview_diary_detail_content);
         textDate = (TextView)findViewById(R.id.textView_diary_detail_date);
-        textWhether = (TextView)findViewById(R.id.textView_diary_detail_whether);
+        textWeather = (TextView)findViewById(R.id.textView_diary_detail_weather);
         textTag = (TextView)findViewById(R.id.text_diary_detail_direction);
-        whetherImage = (ImageView)findViewById(R.id.imageView_diary_detail_whether);
+        weatherImagev = (ImageView)findViewById(R.id.imageView_diary_detail_weather);
         textRemarkNum = (TextView)findViewById(R.id.textView_num_remark);
         remarkImage = (ImageView)findViewById(R.id.imageView_remark);
         remarkListView = (MyListView)findViewById(R.id.remark_listview);
@@ -485,9 +491,11 @@ public class DiaryDetailActivity extends BaseActivity {
         textRemarkNum.setText(String.valueOf(commentNum));
         textAddress.setText(address);
         textDate.setText(date);
-        textWhether.setText(weather);
+        textWeather.setText(weather);
         textTag.setText(tag);
-        whetherImage.setImageResource(Constant.mImageViewResourceId[weatherImage]);
+
+        weatherImagev.setImageResource(Constant.mImageViewResourceId[weatherImage]);
+        //weatherImagev.setImageBitmap(bmp);
         //发的话题的图片
         imagesList=new ArrayList<>();
 
@@ -588,36 +596,6 @@ public class DiaryDetailActivity extends BaseActivity {
                 return super.onOptionsItemSelected(item);
         }
         return true;
-    }
-
-    public void deleteDiaryMessage(int diaryMessageID){
-        for(int i=0; i<Constant.diariesList.size(); i++){
-            if(Constant.diariesList.get(i).getDiaryMessagesList() != null){
-                for(int j=0; j<Constant.diariesList.get(i).getDiaryMessagesList().size(); j++){
-                    if(Constant.diariesList.get(i).getDiaryMessagesList().get(j).getDiary_message_id() == diaryMessageID){
-                        Constant.diariesList.get(i).getDiaryMessagesList().remove(j);
-//                        Constant.diariesList.get(i).getDiaryMessagesList().get(j).setIs_active(-1);
-                    }
-                }
-            }
-        }
-        if(DiaryListActivity.diaryAdapter != null){
-            DiaryListActivity.diaryAdapter.notifyDataSetChanged();
-        }
-    }
-    public void deleteDiary(int diaryID){
-        for(int i=0; i<Constant.diariesList.size(); i++){
-            if(Constant.diariesList.get(i).getDiary_id() == diaryID){
-                Constant.diariesList.remove(i);
-//                Constant.diariesList.get(i).setIs_active(-1);
-            }
-        }
-        //DiaryListActivity
-        if(DiaryListActivity.diaryAdapter != null){
-            DiaryListActivity.diaryAdapter.notifyDataSetChanged();
-        }
-
-        this.finish();
     }
 }
 

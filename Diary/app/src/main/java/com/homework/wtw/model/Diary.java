@@ -13,7 +13,7 @@ public class Diary {
         return diaryMessagesList;
     }
 
-    private String picture;
+    private byte[] picture;
     private String content;
     private long create_time;
     private String date;
@@ -22,15 +22,15 @@ public class Diary {
     private String tag;
     private int user_message;
     private String address;
-    private String whether;
-    private int whether_image;
+    private String weather;
+    private int weather_image;
 
 
-    public String getPicture() {
+    public byte[] getPicture() {
         return picture;
     }
 
-    public void setPicture(String picture) {
+    public void setPicture(byte[] picture) {
         this.picture = picture;
     }
 
@@ -79,12 +79,12 @@ public class Diary {
         this.address = address;
     }
 
-    public String getWhether() {
-        return whether;
+    public String getWeather() {
+        return weather;
     }
 
-    public void setWhether(String whether) {
-        this.whether = whether;
+    public void setWeather(String weather) {
+        this.weather = weather;
     }
 
     public int getDiary_id() {
@@ -107,12 +107,12 @@ public class Diary {
 
     public void setDate(String date) { this.date = date; }
 
-    public int getWhether_image() {
-        return whether_image;
+    public int getWeather_image() {
+        return weather_image;
     }
 
-    public void setWhether_image(int whether_image) {
-        this.whether_image = whether_image;
+    public void setWeather_image(int weather_image) {
+        this.weather_image = weather_image;
     }
 }
 
