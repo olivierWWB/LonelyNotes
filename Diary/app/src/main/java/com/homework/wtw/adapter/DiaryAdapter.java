@@ -94,37 +94,8 @@ public class DiaryAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        Log.i("DiaryAdapter","handleImage0");
         ViewHolder viewHolder;
 
-        //处理图片列表
-        List<List<Image>> imageList = new ArrayList<>();
-//        for (int i = 0; i < topicsList.size(); i++) {
-//            String pictures = topicsList.get(i).getPicture();
-//
-//            String[] pictureStr = pictures.split("#");
-//            ArrayList<Image> pictureItemList = new ArrayList<>();
-//            for (int j = 0; j < pictureStr.length; j++) {
-//                String pictureUrl = pictureStr[j];
-//                String[] pictureInfo = pictureUrl.split("_");
-//                if (pictureInfo.length > 2) {
-//                    pictureItemList.add(new Image(Constant.TOPIC_IMAGE_PATH + pictureStr[j], Integer.parseInt(pictureInfo[0]), Integer.parseInt(pictureInfo[1])));
-//                }
-//            }
-//            imageList.add(pictureItemList);
-//        }
-        Log.i("DiaryAdapter","handleImage");
-        for(int i=0; i<diariesList.size(); i++){
-            ArrayList<Image> pictureItemList = new ArrayList<>();
-            for(int j=i; j<i; j++){
-                pictureItemList.add(new Image(Constant.imagePathAli,150,150));
-            }
-            imageList.add(pictureItemList);
-        }
-
-        this.datalist = imageList;
-        List<Image> itemList = datalist.get(position);
-        Log.i("DiaryAdapter","handleImage2");
         if (convertView == null) {
             convertView = LayoutInflater.from(context).inflate(R.layout.item_diary, parent, false);
             viewHolder = new ViewHolder();
@@ -147,6 +118,39 @@ public class DiaryAdapter extends BaseAdapter {
         }
 
 
+        picture = diariesList.get(position).getPicture();
+        bmp = BitmapFactory.decodeByteArray(picture, 0, picture.length);
+
+        if(bmp == null){
+            viewHolder.ivMore.setVisibility(View.GONE);
+            viewHolder.ivOne.setVisibility(View.GONE);
+        }else{
+            viewHolder.ivMore.setVisibility(View.GONE);
+            viewHolder.ivOne.setVisibility(View.VISIBLE);
+
+            //设置为同一个imageShowerManager.其实吧。。。没什么用。。嗯。
+            viewHolder.ivOne.setImageManager(imageManager);
+
+//            final String url = itemList.get(0).getUrl();
+
+//            viewHolder.ivOne.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    Intent intent = new Intent(context, ShowImageActivity.class);
+//                    Bundle bundle = new Bundle();
+//                    pictureList = new ArrayList<>();
+//                    pictureList.add(url);
+//                    bundle.putStringArrayList("url", pictureList);
+//                    bundle.putInt("position", 0);
+//                    intent.putExtras(bundle);
+//                    context.startActivity(intent);
+//                }
+//            });
+
+            Image image = new Image(bmp,bmp.getWidth(),bmp.getHeight());
+            handlerOneImage(viewHolder, image);
+        }
+/*
         if (itemList.isEmpty()) {//没有图片，只显示文字
             viewHolder.ivMore.setVisibility(View.GONE);
             viewHolder.ivOne.setVisibility(View.GONE);
@@ -184,9 +188,9 @@ public class DiaryAdapter extends BaseAdapter {
 
             viewHolder.ivMore.setImagesData(itemList);
         }
+        */
         String[] date = diariesList.get(position).getDate().split(" ");
-        picture = diariesList.get(position).getPicture();
-        bmp = BitmapFactory.decodeByteArray(picture, 0, picture.length);
+
 
         viewHolder.textDirection.setText(diariesList.get(position).getTag());
 //        viewHolder.textDate.setText(TimeUtil.getFinalTime(diariesList.get(position).getCreate_time()));
@@ -268,10 +272,8 @@ public class DiaryAdapter extends BaseAdapter {
         //直接加载啊哈哈哈哈哈哈如果图大就超慢啊哈哈可能会OOM啊哈哈
         //异步加载
         Log.i(TAG, "图片地址：" +image.getUrl());
-        viewHolder.ivOne.setImageUrl(image.getUrl());
-
-//        viewHolder.ivOne.setImageUrl(Constant.imagePathAli);
-
+//        viewHolder.ivOne.setImageUrl(image.getUrl());
+        viewHolder.ivOne.setImageBitmap(image.getBitmap());
     }
 
 

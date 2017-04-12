@@ -62,7 +62,7 @@ public class ShowImageActivity extends AppCompatActivity {
 
         urlList = new ArrayList<>();
 
-        urlList = getIntent().getStringArrayListExtra("url");
+//        urlList = getIntent().getStringArrayListExtra("url");
         position = getIntent().getIntExtra("position", 0);
         currentPosition = position;
 

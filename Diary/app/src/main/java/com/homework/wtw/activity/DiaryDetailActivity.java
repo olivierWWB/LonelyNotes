@@ -500,22 +500,33 @@ public class DiaryDetailActivity extends BaseActivity {
         //发的话题的图片
         imagesList=new ArrayList<>();
 
-//        String[] pictureStr = pictures.split("#");
-//        for(int i=0; i<pictureStr.length; i++){
-//            String[] pictureUrlStr = pictureStr[i].split("_");
-//            if(pictureUrlStr.length>2){
-////                String pictureURL = Constant.TOPIC_IMAGE_PATH + pictureStr[i];
-//                String pictureURL = Constant.imagePathAli;
-////                imagesList.add(new Image(pictureURL,Integer.parseInt(pictureUrlStr[0]),Integer.parseInt(pictureUrlStr[1])));
-//                imagesList.add(new Image(pictureURL,150,150));
-//            }
-//        }
 
-        Image image = new Image(bmp, 150, 150);
-        handlerOneImage(image);
+        if(bmp == null){
+            ivMore.setVisibility(View.GONE);
+            ivOne.setVisibility(View.GONE);
+        }else{
+            ivMore.setVisibility(View.GONE);
+            ivOne.setVisibility(View.VISIBLE);
 
-        imagesList.add(new Image(Constant.imagePathAli,150,150));
+//            pictureList = new ArrayList<>();
+//            pictureList.add(imagesList.get(0).getUrl());
+//
+//            ivOne.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    Intent intent = new Intent(DiaryDetailActivity.this, ShowImageActivity.class);
+//                    Bundle bundle = new Bundle();
+//                    bundle.putStringArrayList("url", pictureList);
+//                    bundle.putInt("position", 0);
+//                    intent.putExtras(bundle);
+//                    startActivity(intent);
+//                }
+//            });
 
+            Image image = new Image(bmp, bmp.getWidth(), bmp.getHeight());
+            handlerOneImage(image);
+        }
+        /*
 
         if (imagesList.isEmpty()) {
             ivMore.setVisibility(View.GONE);
@@ -544,7 +555,7 @@ public class DiaryDetailActivity extends BaseActivity {
             ivMore.setVisibility(View.VISIBLE);
             ivOne.setVisibility(View.GONE);
             ivMore.setImagesData(imagesList);
-        }
+        }*/
 
         //评论列表
         commentAdapter = new DiaryCommentAdapter(DiaryDetailActivity.this, diaryCommentsList);
@@ -559,10 +570,6 @@ public class DiaryDetailActivity extends BaseActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        //这条是当前用户发的话题.（之后要加举报的话这个就可以删除了。但是还要在下面判断是不是这个人发的才能删除啊哈哈哈哈哈）
-//        if(String.valueOf(User.getInstance().getUser_id()).equals(userID)){
-//            getMenuInflater().inflate(R.menu.menu_delete, menu);
-//        }
 
         return true;
 
@@ -577,25 +584,6 @@ public class DiaryDetailActivity extends BaseActivity {
                 this.finish();
                 break;
 
-           /* case R.id.action_delete:
-                deleteDiary(diaryID);
-
-//                for (int i = 0; i < allTopicsList.size(); i++) {
-//                    if (allTopicsList.get(i).getDiary_id() == diaryID) {
-//                        allTopicsList.remove(i);
-//                    }
-//                }
-                for (int i = 0; i < Constant.diariesList.size(); i++) {
-                    if (Constant.diariesList.get(i).getPhone_topic_id() == topicID) {
-                        Constant.diariesList.remove(i);
-                    }
-                }
-                if (DiaryListActivity.diaryAdapter != null)
-                    DiaryListActivity.diaryAdapter.notifyDataSetChanged();
-
-                this.finish();
-
-                break;*/
             default:
                 return super.onOptionsItemSelected(item);
         }
