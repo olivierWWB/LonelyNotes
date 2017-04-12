@@ -234,7 +234,6 @@ public class DiaryPublishActivity extends BaseActivity2 {
             public void onClick(View v) {
 //                InitLocation();
                 //在这里定位，获取天气！！！获取成功后，把tv_location文字换成城市名+当前气温
-                showToast("Start Locating");
                 startLocation();
 
             }
@@ -398,9 +397,15 @@ public class DiaryPublishActivity extends BaseActivity2 {
                         type = 1;//仅文字
                         Diary diary = new Diary();
                         diary.setContent(content);
-                        diary.setAddress(tv_location.getText().toString().trim());
-                        diary.setWeather(tv_temperature.getText().toString().trim());
-                        diary.setWeather_image(Constant.imageId);
+                        if(tv_location.getText().toString().equals("获取城市和天气")) {
+                            diary.setAddress("外太空");
+                            diary.setWeather("-273.15℃");
+                            diary.setWeather_image(39);
+                        }else {
+                            diary.setAddress(tv_location.getText().toString().trim());
+                            diary.setWeather(tv_temperature.getText().toString().trim());
+                            diary.setWeather_image(Constant.imageId);
+                        }
                         diary.setTag(spinnerValue);
                         diary.setCreate_time(System.currentTimeMillis());
                         diary.setDate(TimeUtil.getCurrentTime());
@@ -414,9 +419,15 @@ public class DiaryPublishActivity extends BaseActivity2 {
                         byte[] picture = PictureUtil.bmpToByteArray(bmp, true);
                         Diary diary = new Diary();
                         diary.setContent(content);
-                        diary.setAddress(tv_location.getText().toString().trim());
-                        diary.setWeather(tv_temperature.getText().toString().trim());
-                        diary.setWeather_image(Constant.imageId);
+                        if(tv_location.getText().toString().equals("获取城市和天气")) {
+                            diary.setAddress("外太空");
+                            diary.setWeather("-273.15℃");
+                            diary.setWeather_image(39);
+                        }else {
+                            diary.setAddress(tv_location.getText().toString().trim());
+                            diary.setWeather(tv_temperature.getText().toString().trim());
+                            diary.setWeather_image(Constant.imageId);
+                        }
                         diary.setTag(spinnerValue);
                         diary.setCreate_time(System.currentTimeMillis());
                         diary.setDate(TimeUtil.getCurrentTime());

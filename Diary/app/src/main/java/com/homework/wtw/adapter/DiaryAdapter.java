@@ -40,13 +40,10 @@ import java.util.List;
 public class DiaryAdapter extends BaseAdapter {
     private String TAG = "DiaryAdapter";
     private Context context;
-    private List<List<Image>> datalist;
     private ImageShowManager imageManager;
     private List<Diary> diariesList = new ArrayList<>();
     private byte[] picture;
     private Bitmap bmp;
-    private ArrayList<String> pictureList = new ArrayList<>();
-
     private DisplayImageOptions options;
     private ImageLoadingListener animateFirstListener = new AnimateFirstDisplayListener();
     private LayoutInflater inflater;
@@ -95,7 +92,6 @@ public class DiaryAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder viewHolder;
-
         if (convertView == null) {
             convertView = LayoutInflater.from(context).inflate(R.layout.item_diary, parent, false);
             viewHolder = new ViewHolder();
@@ -119,7 +115,9 @@ public class DiaryAdapter extends BaseAdapter {
 
 
         picture = diariesList.get(position).getPicture();
-        bmp = BitmapFactory.decodeByteArray(picture, 0, picture.length);
+        if (picture != null) {
+            bmp = BitmapFactory.decodeByteArray(picture, 0, picture.length);
+        }
 
         if(bmp == null){
             viewHolder.ivMore.setVisibility(View.GONE);

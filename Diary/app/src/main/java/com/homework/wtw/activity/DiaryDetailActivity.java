@@ -97,7 +97,7 @@ public class DiaryDetailActivity extends BaseActivity {
 
     private String tag;
     private String content;
-    private byte[] pictures;
+    private byte[] pictures = null;
     private int commentNum = 0;
     private String date,address,weather,day;
     private int weatherImage;
@@ -135,7 +135,9 @@ public class DiaryDetailActivity extends BaseActivity {
         weather = diary.getWeather();
         weatherImage = diary.getWeather_image();
         pictures = diary.getPicture();
-        bmp = BitmapFactory.decodeByteArray(pictures, 0, pictures.length);
+        if (pictures != null) {
+            bmp = BitmapFactory.decodeByteArray(pictures, 0, pictures.length);
+        }
         fromWhere = intent.getIntExtra("fromwhere", -1);
 
         diaryCommentsList = diaryDataBaseOperate.findMessageByDiaryId(diaryID);
@@ -321,8 +323,9 @@ public class DiaryDetailActivity extends BaseActivity {
         ivOne.setClickable(true);
         ivOne.setScaleType(ImageView.ScaleType.FIT_XY);
 //        ivOne.setImageUrl(image.getUrl());
-        ivOne.setImageBitmap(bmp);
-
+        if (bmp != null) {
+            ivOne.setImageBitmap(bmp);
+        }
     }
 
     private View.OnClickListener onClickListener = new View.OnClickListener() {

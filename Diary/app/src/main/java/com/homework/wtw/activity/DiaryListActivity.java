@@ -77,7 +77,7 @@ public class DiaryListActivity extends BaseActivity implements AbsListView.OnScr
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_diary);
         diaryDataBaseOperate = new DiaryDataBaseOperate(DiaryApplication.diarySQLiteOpenHelper.getWritableDatabase());
-
+        Constant.diariesList = diaryDataBaseOperate.findAll();
 //        container = (LinearLayout) findViewById(R.id.container);
 //        initSystemBar(container);
 //
@@ -103,9 +103,6 @@ public class DiaryListActivity extends BaseActivity implements AbsListView.OnScr
             }
         });
 //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-
-
-
         progressWheel = (ProgressWheel) findViewById(R.id.progress_wheel);
         textview_tipc = (TextView) findViewById(R.id.textview_tipc);
 
@@ -115,7 +112,7 @@ public class DiaryListActivity extends BaseActivity implements AbsListView.OnScr
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 if (i == diaryAdapter.getCount()) {
-                    Log.i("ResultTopic", "position=" + i);
+                    Log.e("ResultTopic", "position=" + i);
                 } else {
                     Intent intent = new Intent(DiaryListActivity.this, DiaryDetailActivity.class);
                     Bundle bundle = new Bundle();
@@ -126,7 +123,6 @@ public class DiaryListActivity extends BaseActivity implements AbsListView.OnScr
                 }
             }
         });
-
         getDiaries();
 //        diaryAdapter = new DiaryAdapter(DiaryListActivity.this, Constant.diariesList);
 //        mListView.setAdapter(diaryAdapter);
@@ -260,7 +256,6 @@ public class DiaryListActivity extends BaseActivity implements AbsListView.OnScr
 //        }
 
 //        diaryAdapter = null;
-        Constant.diariesList = diaryDataBaseOperate.findAll();
         diaryAdapter = new DiaryAdapter(DiaryListActivity.this, Constant.diariesList);
         mListView.setAdapter(diaryAdapter);
 
