@@ -59,7 +59,7 @@ public class DiaryListActivity extends BaseActivity implements AbsListView.OnScr
 
     private ProgressBar progressBar;
     private TextView textBar;
-    private TextView textview_tipc;
+    public static TextView textview_tipc;
 
     private Toolbar toolbar;
     private boolean isRefresh = false;
@@ -266,6 +266,13 @@ public class DiaryListActivity extends BaseActivity implements AbsListView.OnScr
 
         progressWheel.setVisibility(View.GONE);
         mListView.setVisibility(View.VISIBLE);
+
+        if(Constant.diariesList.size() == 0){
+            textview_tipc.setVisibility(View.VISIBLE);
+            textview_tipc.setText("去写点什么吧～～～点右上角哟～");
+        }else{
+            textview_tipc.setVisibility(View.GONE);
+        }
 
     }
 

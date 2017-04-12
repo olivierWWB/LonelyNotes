@@ -200,9 +200,9 @@ public class DiaryPublishActivity extends BaseActivity2 {
         gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if (Constant.publishImagePaths.size() < 9 && position == Constant.publishImagePaths.size()) {
+                if (Constant.publishImagePaths.size() < 1 && position == Constant.publishImagePaths.size()) {
                     PhotoPicker.builder()
-                            .setPhotoCount(9)
+                            .setPhotoCount(1)
                             .setShowCamera(true)
                             .setShowGif(true)
                             .setPreviewEnabled(false)
@@ -519,6 +519,8 @@ public class DiaryPublishActivity extends BaseActivity2 {
         //既然已经发出去了。那就让发送按钮可以点吧。行吧。
         mSendMsgTextView.setFocusable(true);
         mSendMsgTextView.setClickable(true);
+
+        DiaryListActivity.textview_tipc.setVisibility(View.GONE);
 
         finish();
 

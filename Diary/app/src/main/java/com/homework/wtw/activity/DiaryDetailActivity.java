@@ -320,7 +320,8 @@ public class DiaryDetailActivity extends BaseActivity {
         ivOne.setLayoutParams(layoutparams);
         ivOne.setClickable(true);
         ivOne.setScaleType(ImageView.ScaleType.FIT_XY);
-        ivOne.setImageUrl(image.getUrl());
+//        ivOne.setImageUrl(image.getUrl());
+        ivOne.setImageBitmap(bmp);
 
     }
 
@@ -509,6 +510,9 @@ public class DiaryDetailActivity extends BaseActivity {
 //                imagesList.add(new Image(pictureURL,150,150));
 //            }
 //        }
+
+        Image image = new Image(bmp, 150, 150);
+        handlerOneImage(image);
 
         imagesList.add(new Image(Constant.imagePathAli,150,150));
 
