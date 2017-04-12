@@ -6,6 +6,8 @@ package com.homework.wtw.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -41,6 +43,8 @@ public class DiaryAdapter extends BaseAdapter {
     private List<List<Image>> datalist;
     private ImageShowManager imageManager;
     private List<Diary> diariesList = new ArrayList<>();
+    private byte[] picture;
+    private Bitmap bmp;
     private ArrayList<String> pictureList = new ArrayList<>();
 
     private DisplayImageOptions options;
@@ -181,6 +185,8 @@ public class DiaryAdapter extends BaseAdapter {
             viewHolder.ivMore.setImagesData(itemList);
         }
         String[] date = diariesList.get(position).getDate().split(" ");
+        picture = diariesList.get(position).getPicture();
+        bmp = BitmapFactory.decodeByteArray(picture, 0, picture.length);
 
         viewHolder.textDirection.setText(diariesList.get(position).getTag());
 //        viewHolder.textDate.setText(TimeUtil.getFinalTime(diariesList.get(position).getCreate_time()));
