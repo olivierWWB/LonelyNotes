@@ -516,6 +516,14 @@ public class DiaryPublishActivity extends BaseActivity2 {
 //        Diary diary = new Diary(maxID+1, content,tag, TimeUtil.getCurrentTime(),pictures, address, whether, whetherImage, diaryMessages, TimeUtil.getCurrentDay());
 //        Constant.diariesList.add(0, diary);
         Constant.diariesList = diaryDataBaseOperate.findAll();
+        for(int i = 0; i < Constant.diariesList.size(); i++) {
+            if(Constant.diariesList.get(i).getPicture() == null) {
+                Log.e("图片", "0length");
+            } else {
+                Log.e("图片", Constant.diariesList.get(i).getPicture().length+"length");
+            }
+
+        }
         Log.e("count", Constant.diariesList.size()+"");
         DiaryListActivity.diaryAdapter.setData(Constant.diariesList);
         DiaryListActivity.diaryAdapter.notifyDataSetChanged();
