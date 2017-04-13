@@ -141,13 +141,12 @@ public class DiaryListActivity extends BaseActivity implements AbsListView.OnScr
 
                     @Override
                     public void run() {
-                        Constant.diariesList = new ArrayList<>();
+//                        Constant.diariesList = new ArrayList<>();
                         indexItem = 0;
                         jsonCount = 0;
                         dataCount = load_num;
                         isRefresh = true;
 
-//                        getDiaries();
                         swipeRefreshLayout.setRefreshing(false);
 
 //                        mListView.removeFooterView(loadMoreView);
