@@ -117,8 +117,18 @@ public class DiaryAdapter extends BaseAdapter {
         picture = diariesList.get(position).getPicture();
         if (picture != null) {
             bmp = BitmapFactory.decodeByteArray(picture, 0, picture.length);
-        }
 
+            viewHolder.ivMore.setVisibility(View.GONE);
+            viewHolder.ivOne.setVisibility(View.VISIBLE);
+
+            viewHolder.ivOne.setImageManager(imageManager);
+            Image image = new Image(bmp,bmp.getWidth(),bmp.getHeight());
+            handlerOneImage(viewHolder, image);
+        }else{
+            viewHolder.ivMore.setVisibility(View.GONE);
+            viewHolder.ivOne.setVisibility(View.GONE);
+        }
+/*
         if(bmp == null){
             viewHolder.ivMore.setVisibility(View.GONE);
             viewHolder.ivOne.setVisibility(View.GONE);
@@ -147,7 +157,7 @@ public class DiaryAdapter extends BaseAdapter {
 
             Image image = new Image(bmp,bmp.getWidth(),bmp.getHeight());
             handlerOneImage(viewHolder, image);
-        }
+        }*/
 /*
         if (itemList.isEmpty()) {//没有图片，只显示文字
             viewHolder.ivMore.setVisibility(View.GONE);
