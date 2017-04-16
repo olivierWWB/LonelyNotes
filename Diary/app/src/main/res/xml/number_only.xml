@@ -41,13 +41,13 @@
     <Row>
         <Key
             android:codes="2"
-            android:keyLabel="." />
+            android:keyLabel="" />
         <Key
             android:codes="48"
             android:keyLabel="0" />
         <Key
             android:codes="5"
-            android:keyLabel="*"
+            android:keyIcon="@drawable/keboard_back"
             />
     </Row>
 
