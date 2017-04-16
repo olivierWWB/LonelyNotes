@@ -35,6 +35,7 @@ public class ChangePasswordActivity extends Activity{
     private TextView inputPassword;
     SharedPreferences sharedPreferences;
     SharedPreferences.Editor editor;
+    private Intent intent;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         // TODO Auto-generated method stub
@@ -45,6 +46,7 @@ public class ChangePasswordActivity extends Activity{
         findView();
         setListener();
         initData();
+        intent = getIntent();
     }
 
 
@@ -132,9 +134,10 @@ public class ChangePasswordActivity extends Activity{
 								Toast.makeText(getApplicationContext(), "修改成功", Toast.LENGTH_SHORT).show();
                                 editor.putString("password",strReapt);
                                 editor.commit();
-                                Intent intent = new Intent(ChangePasswordActivity.this, DiaryListActivity.class);
-								startActivity(intent);
+//                                Intent intent = new Intent(ChangePasswordActivity.this, DiaryListActivity.class);
+//								startActivity(intent);
 								strLockPwdOne = null;
+                                setResult(RESULT_OK, intent);
                                 finish();
 							} else {
                                 strLockPwdOne = null;

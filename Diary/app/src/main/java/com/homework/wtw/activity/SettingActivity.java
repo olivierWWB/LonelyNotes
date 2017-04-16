@@ -1,6 +1,7 @@
 package com.homework.wtw.activity;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -38,7 +39,8 @@ public class SettingActivity extends BaseActivity{
             public void onClick(View v) {
 
                 Intent intent = new Intent(SettingActivity.this, ChangePasswordActivity.class);
-                startActivity(intent);
+                startActivityForResult(intent, 0);
+//                startActivity(intent);
             }
         });
 
@@ -49,5 +51,19 @@ public class SettingActivity extends BaseActivity{
                 startActivity(intent);
             }
         });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        switch (resultCode) { //resultCode为回传的标记，我在B中回传的是RESULT_OK
+            case RESULT_OK:
+                finish();
+                break;
+
+            default:
+                break;
+        }
     }
 }

@@ -15,6 +15,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.*;
 import com.homework.wtw.activity.DiaryListActivity;
+import com.homework.wtw.activity.SettingActivity;
 import com.homework.wtw.database.DiaryDataBaseOperate;
 import com.homework.wtw.util.KeyboardUtil;
 
@@ -157,7 +158,9 @@ public class SetLockPwdActivity extends Activity {
 								Intent intent = new Intent(SetLockPwdActivity.this, DiaryListActivity.class);
 								startActivity(intent);
 								strLockPwdOne = null;
+
 								finish();
+
 							} else {
 								textView1.setText("密码错误！");
 								strLockPwdOne = null;
