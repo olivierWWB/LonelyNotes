@@ -78,6 +78,7 @@ public class DiaryListActivity extends BaseActivity implements AbsListView.OnScr
         setContentView(R.layout.activity_diary);
         diaryDataBaseOperate = new DiaryDataBaseOperate(DiaryApplication.diarySQLiteOpenHelper.getWritableDatabase());
         Constant.diariesList = diaryDataBaseOperate.findAll();
+
 //        container = (LinearLayout) findViewById(R.id.container);
 //        initSystemBar(container);
 //

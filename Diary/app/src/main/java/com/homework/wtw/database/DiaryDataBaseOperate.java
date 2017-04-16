@@ -195,4 +195,20 @@ public class DiaryDataBaseOperate {
 		}
 		return diaryMessageList;
 	}
+
+	public String findPassword(){
+
+		List<String> passwordList=new ArrayList<>();
+		Cursor cursor = mDB.query(DiarySQLiteOpenHelper.PASSWORD,
+				null, null, null, null, null, null);
+		if(cursor!=null){
+			while (cursor.moveToNext()){
+				passwordList.add(cursor.getString(cursor.getColumnIndex(DiarySQLiteOpenHelper.COL_PASSWORD)));
+			}
+		}
+		if(passwordList.size()==0){
+			return passwordList.get(0);
+		}
+		else return "";
+	}
 }

@@ -55,7 +55,7 @@
             android:value="66859f712f071bb6ef43f0f453850381"/>
         <service android:name="com.amap.api.location.APSService" >
         </service>
-        <activity android:name=".MainActivity">
+        <activity android:name=".SetLockPwdActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -67,6 +67,12 @@
         android:configChanges="keyboardHidden|orientation"
         android:screenOrientation="portrait"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+
+        <activity
+            android:name="com.homework.wtw.activity.ChangePasswordActivity"
+            android:configChanges="keyboardHidden|orientation"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
 
         <activity
             android:name="com.homework.wtw.activity.DiaryDetailActivity"

@@ -16,23 +16,34 @@ import com.homework.wtw.util.Constant;
 import java.util.ArrayList;
 
 
+import android.view.SurfaceHolder;
+import android.view.SurfaceView;
+import android.view.Window;
+import android.view.WindowManager;
+import android.view.SurfaceHolder.Callback;
+
 public class MainActivity extends AppCompatActivity {
     private  Button btn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Intent intent = new Intent(MainActivity.this, DiaryListActivity.class);
         setContentView(R.layout.activity_main);
+       // btn = (Button)this.findViewById(R.id.test_btn);
+//
+//        btn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
 
-        btn = (Button)this.findViewById(R.id.test_btn);
+//                startActivity(intent);
+//            }
+//        });
 
-        btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, DiaryListActivity.class);
-                startActivity(intent);
-            }
-        });
+
 
     }
+
+
+
 }

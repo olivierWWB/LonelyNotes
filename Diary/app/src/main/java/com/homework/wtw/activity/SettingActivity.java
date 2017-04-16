@@ -9,6 +9,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.homework.wtw.diary.R;
+import com.homework.wtw.diary.SetLockPwdActivity;
 
 /**
  * Created by ts on 2017/3/14.
@@ -35,7 +36,9 @@ public class SettingActivity extends BaseActivity{
         layoutChangePsw.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showToast("去修改密码啊！");
+
+                Intent intent = new Intent(SettingActivity.this, ChangePasswordActivity.class);
+                startActivity(intent);
             }
         });
 
