@@ -206,7 +206,7 @@ public class DiaryDataBaseOperate {
 				passwordList.add(cursor.getString(cursor.getColumnIndex(DiarySQLiteOpenHelper.COL_PASSWORD)));
 			}
 		}
-		if(passwordList.size()==0){
+		if(passwordList.size()>0){
 			return passwordList.get(0);
 		}
 		else return "";

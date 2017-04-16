@@ -1,29 +1,21 @@
 package com.homework.wtw.diary;
-
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.*;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.InputStream;
 import com.homework.wtw.activity.DiaryListActivity;
 import com.homework.wtw.database.DiaryDataBaseOperate;
-
-import com.homework.wtw.util.Constant;
 import com.homework.wtw.util.KeyboardUtil;
 
 public class SetLockPwdActivity extends Activity {
@@ -36,42 +28,26 @@ public class SetLockPwdActivity extends Activity {
 	private Handler mHandler;
 	private TextView textView1;
 	private String password;
+	SharedPreferences sharedPreferences;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
-		InputStream inputStream = getResources().openRawResource(R.raw.password);
-		password = getString(inputStream);
 		diaryDataBaseOperate = new DiaryDataBaseOperate(DiaryApplication.diarySQLiteOpenHelper.getWritableDatabase());
 		//password = diaryDataBaseOperate.findPassword();
+		sharedPreferences = getSharedPreferences("user", Context.MODE_PRIVATE);
+		password = sharedPreferences.getString("password","");
+		Log.i("SetLockPwd","password="+password);
 		if(password.equals("")){
 			Intent intent = new Intent(SetLockPwdActivity.this, DiaryListActivity.class);
 			startActivity(intent);
 		}
 
+
 		setContentView(R.layout.activity_main);
 		findView();
 		setListener();
 		initData();
-	}
-	public static String getString(InputStream inputStream) {
-		InputStreamReader inputStreamReader = null;
-		try {
-			inputStreamReader = new InputStreamReader(inputStream, "gbk");
-		} catch (UnsupportedEncodingException e1) {
-			e1.printStackTrace();
-		}
-		BufferedReader reader = new BufferedReader(inputStreamReader);
-		StringBuffer sb = new StringBuffer("");
-		String line;
-		try {
-			while ((line = reader.readLine()) != null) {
-				sb.append(line);
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return sb.toString();
 	}
 	void findView() {
 		textView1 = (TextView) findViewById(R.id.input);

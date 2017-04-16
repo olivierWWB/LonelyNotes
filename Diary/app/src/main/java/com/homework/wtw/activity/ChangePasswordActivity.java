@@ -2,6 +2,7 @@ package com.homework.wtw.activity;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -17,14 +18,6 @@ import com.homework.wtw.diary.R;
 import com.homework.wtw.diary.SetLockPwdActivity;
 import com.homework.wtw.util.KeyboardUtil;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 
 /**
@@ -40,38 +33,21 @@ public class ChangePasswordActivity extends Activity{
     public String strLockPwdTwo;
     private Handler mHandler;
     private TextView inputPassword;
-    private String password;
-    private InputStream inputStream;
+    SharedPreferences sharedPreferences;
+    SharedPreferences.Editor editor;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         // TODO Auto-generated method stub
         super.onCreate(savedInstanceState);
-         //inputStream = getResources().openRawResource(R.raw.password);
-
         setContentView(R.layout.activity_main);
+        sharedPreferences=getSharedPreferences("user",MODE_PRIVATE);
+        editor = sharedPreferences.edit();
         findView();
         setListener();
         initData();
     }
-   /* public static String getString(InputStream inputStream) {
-        InputStreamReader inputStreamReader = null;
-        try {
-            inputStreamReader = new InputStreamReader(inputStream, "gbk");
-        } catch (UnsupportedEncodingException e1) {
-            e1.printStackTrace();
-        }
-        BufferedReader reader = new BufferedReader(inputStreamReader);
-        StringBuffer sb = new StringBuffer("");
-        String line;
-        try {
-            while ((line = reader.readLine()) != null) {
-                sb.append(line);
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return sb.toString();
-    }*/
+
+
     void findView() {
         inputPassword = (TextView) findViewById(R.id.input);
         etPwdOne = (EditText) findViewById(R.id.etPwdOne_setLockPwd);
@@ -157,6 +133,8 @@ public class ChangePasswordActivity extends Activity{
                                 //File file = new File("~/password.txt");
                                 //Toast.makeText(getApplicationContext(),getFilesDir().toString(),Toast.LENGTH_SHORT).show();
 
+                                editor.putString("password",strReapt);
+                                editor.commit();
                                 Intent intent = new Intent(ChangePasswordActivity.this, SetLockPwdActivity.class);
 								startActivity(intent);
 								strLockPwdOne = null;
