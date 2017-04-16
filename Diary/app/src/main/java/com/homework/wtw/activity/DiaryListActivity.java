@@ -4,14 +4,22 @@ package com.homework.wtw.activity;
  * Created by ts on 17/3/7.
  */
 
+import android.app.Service;
 import android.content.Intent;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.os.Vibrator;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.SurfaceHolder;
+import android.view.SurfaceView;
 import android.view.View;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
@@ -20,23 +28,16 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
-import java.util.ArrayList;
+
 import com.homework.wtw.adapter.DiaryAdapter;
 import com.homework.wtw.database.DiaryDataBaseOperate;
 import com.homework.wtw.diary.DiaryApplication;
 import com.homework.wtw.diary.R;
-
-import com.homework.wtw.model.Diary;
-import com.homework.wtw.model.DiaryMessage;
+import com.homework.wtw.diary.SetLockPwdActivity;
 import com.homework.wtw.util.Constant;
 import com.homework.wtw.view.ProgressWheel;
-//import com.squareup.leakcanary.RefWatcher;
 
 
-/**
- * Created by ts on 16/5/18.
- */
 public class DiaryListActivity extends BaseActivity implements AbsListView.OnScrollListener{
 
     private String TAG = "DiaryListActivity";
@@ -71,6 +72,16 @@ public class DiaryListActivity extends BaseActivity implements AbsListView.OnScr
 
     private ImageView mImageView, mImageView2;
     private TextView mAddTextView;
+
+    private SensorManager sensormanager, sensorManager;
+    private Sensor sensor;
+    private SensorEventListener sensorlistener;
+    private float x = 0, y = 0, z = 0;//传感器的xyz值ֵ
+
+    private Vibrator vibrator;//振动器
+    final float nanosecondsPerSecond = 1.0f / 100000000.0f;
+    private long lastTime = 0;
+    final float[] angle = new float[3];
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -173,7 +184,38 @@ public class DiaryListActivity extends BaseActivity implements AbsListView.OnScr
 //        mListView.addFooterView(loadMoreView);//一行加载更多的ProcessBar提示View
 //        mListView.setFooterDividersEnabled(false);
 
-        mListView.setOnScrollListener(this);
+//        mListView.setOnScrollListener(this);
+
+
+        sensormanager = (SensorManager) DiaryListActivity.this.getSystemService(Service.SENSOR_SERVICE);
+        sensor = sensormanager.getDefaultSensor(Sensor.TYPE_GRAVITY);
+        sensorlistener = new SensorEventListener() {
+            @Override
+            public void onSensorChanged(SensorEvent event) {
+                x = event.values[0];
+                y = event.values[1];
+                z = event.values[2];
+
+                if(x < 1 && x > -1 && y < 1 && y > -1 && z<0){
+
+                    Intent intent = new Intent(DiaryListActivity.this, SetLockPwdActivity.class);
+                    startActivity(intent);
+                    finish();
+
+                }
+            }
+            @Override
+            public void onAccuracyChanged(Sensor sensor, int accuracy) {
+            }
+        };
+        sensormanager.registerListener(sensorlistener, sensor, SensorManager.SENSOR_DELAY_GAME);
+
+
+        sensorManager = (SensorManager) DiaryListActivity.this.getSystemService(Service.SENSOR_SERVICE);
+        vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
+        sensorManager.registerListener(sensorEventListener,
+                sensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE),
+                SensorManager.SENSOR_DELAY_NORMAL);
 
     }
 
@@ -186,13 +228,20 @@ public class DiaryListActivity extends BaseActivity implements AbsListView.OnScr
     @Override
     public void onPause() {
         super.onPause();
+        if (sensorManager != null) {
+            sensorManager.unregisterListener(sensorEventListener);
+        }
+//        if (sensormanager != null) {
+//            sensormanager.unregisterListener(sensorlistener);
+//        }
     }
 
 
     @Override public void onDestroy() {
         super.onDestroy();
-//        RefWatcher refWatcher = DiaryApplication.getRefWatcher(this);
-//        refWatcher.watch(this);
+//        if (sensormanager != null) {
+//            sensormanager.unregisterListener(sensorlistener);
+//        }
     }
 
     private void loadMoreData() { //加载更多数据
@@ -311,5 +360,38 @@ public class DiaryListActivity extends BaseActivity implements AbsListView.OnScr
         });
 
     }
+
+    private SensorEventListener sensorEventListener = new SensorEventListener() {
+
+        @Override
+        public void onSensorChanged(SensorEvent event) {
+            int boundaryValue = 14;//设置一个加速度边界。
+			float[] values = event.values;//xyz周的重力加速度
+			float x = values[0];
+			float y = values[1];
+			float z = values[2];
+
+			if (Math.abs(x) > boundaryValue || Math.abs(y) > boundaryValue || Math.abs(z) > boundaryValue) {
+				vibrator.vibrate(200);
+//                showToast("摇晃～～～～～～～～");
+                Intent intent = new Intent(DiaryListActivity.this, DiaryPublishActivity.class);
+                startActivity(intent);
+			}
+
+            if (lastTime != 0) {
+                final float dT = (event.timestamp - lastTime) * nanosecondsPerSecond;
+                angle[0] += event.values[0] * dT;
+                angle[1] += event.values[1] * dT;
+                angle[2] += event.values[2] * dT;
+            }
+            lastTime = event.timestamp;
+
+            Log.i(TAG, angle[0] + " HHH " + angle[1] + " LLL " + angle[2]);
+        }
+        @Override
+        public void onAccuracyChanged(Sensor arg0, int arg1) {
+        }
+    };
+
 }
 

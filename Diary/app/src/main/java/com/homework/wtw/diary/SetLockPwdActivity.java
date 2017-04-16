@@ -34,13 +34,13 @@ public class SetLockPwdActivity extends Activity {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		diaryDataBaseOperate = new DiaryDataBaseOperate(DiaryApplication.diarySQLiteOpenHelper.getWritableDatabase());
-		//password = diaryDataBaseOperate.findPassword();
 		sharedPreferences = getSharedPreferences("user", Context.MODE_PRIVATE);
 		password = sharedPreferences.getString("password","");
 		Log.i("SetLockPwd","password="+password);
 		if(password.equals("")){
 			Intent intent = new Intent(SetLockPwdActivity.this, DiaryListActivity.class);
 			startActivity(intent);
+			finish();
 		}
 
 
@@ -157,9 +157,9 @@ public class SetLockPwdActivity extends Activity {
 								Intent intent = new Intent(SetLockPwdActivity.this, DiaryListActivity.class);
 								startActivity(intent);
 								strLockPwdOne = null;
+								finish();
 							} else {
 								textView1.setText("密码错误！");
-								Toast.makeText(getApplicationContext(), "失败", Toast.LENGTH_SHORT).show();
 								strLockPwdOne = null;
 							}
 

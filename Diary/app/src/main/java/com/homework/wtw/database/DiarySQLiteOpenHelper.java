@@ -33,9 +33,6 @@ public class DiarySQLiteOpenHelper extends SQLiteOpenHelper {
 	public static final String COL_MDELETE = "is_active";
 
 
-	public static final String PASSWORD = "PASSWORD";
-	public static final String COL_PASSWORD = "password";
-	public static final String COL_PASSWORD_ID = "id";
 	private final String DIARY_CREATE ="create table IF NOT EXISTS "+DATABASE_TABLE_DIARY+"("+
 			COL_ID +" integer primary key autoincrement,"+
 			COL_CONTENT +" text," +COL_DAY+ " text," + COL_DATE +" text,"+COL_TAG +" text,"+COL_USERMESSAGE +" integer,"+COL_ADDRESS +" text,"+
@@ -44,7 +41,6 @@ public class DiarySQLiteOpenHelper extends SQLiteOpenHelper {
 	private final String MESSAGE_CREATE ="create table IF NOT EXISTS "+DATABASE_TABLE_MESSAGE+"("+
 			COL_MID +" integer primary key autoincrement,"+
 			COL_MCONTENT +" text," +COL_MDATE+ " text," + COL_MDIARY +" integer,"+COL_MDELETE+" integer)";
-	private final String PASSWORD_CREATE = "create table IF NOT EXISTS PASSWORD (password text,id integer primary key autoincrement)";
 	private static DiarySQLiteOpenHelper mInstance = null;
 	private static Context mContext;
 
@@ -64,7 +60,6 @@ public class DiarySQLiteOpenHelper extends SQLiteOpenHelper {
 	public void onCreate(SQLiteDatabase db) {
 		db.execSQL(DIARY_CREATE);
 		db.execSQL(MESSAGE_CREATE);
-		db.execSQL(PASSWORD_CREATE);
 	}
 
 	@Override

@@ -130,14 +130,12 @@ public class ChangePasswordActivity extends Activity{
 							String strReapt = etPwdText.getText().toString();
 							if (strReapt.equals(strLockPwdOne)) {
 								Toast.makeText(getApplicationContext(), "修改成功", Toast.LENGTH_SHORT).show();
-                                //File file = new File("~/password.txt");
-                                //Toast.makeText(getApplicationContext(),getFilesDir().toString(),Toast.LENGTH_SHORT).show();
-
                                 editor.putString("password",strReapt);
                                 editor.commit();
-                                Intent intent = new Intent(ChangePasswordActivity.this, SetLockPwdActivity.class);
+                                Intent intent = new Intent(ChangePasswordActivity.this, DiaryListActivity.class);
 								startActivity(intent);
 								strLockPwdOne = null;
+                                finish();
 							} else {
                                 strLockPwdOne = null;
                                 inputPassword.setText("两次输入密码不一致！");
@@ -152,24 +150,6 @@ public class ChangePasswordActivity extends Activity{
 						etPwdTwo.setText("");
 						etPwdThree.setText("");
 						etPwdFour.setText("");
-                        //inputPassword.setText("请输入密码");
-//                        if (etPwdFour.getText() != null
-//                                && etPwdFour.getText().toString().length() >= 1) {
-//                            String strReapt = etPwdText.getText().toString();
-//                            //Toast.makeText(getApplicationContext(),password,Toast.LENGTH_SHORT).show();
-//                            if (password.equals(strReapt)) {
-//                                Toast.makeText(getApplicationContext(), "成功", Toast.LENGTH_SHORT).show();
-//                                Intent intent = new Intent(ChangePasswordActivity.this, DiaryListActivity.class);
-//                                startActivity(intent);
-//                            } else {
-//                                Toast.makeText(getApplicationContext(), "失败", Toast.LENGTH_SHORT).show();
-//                            }
-//
-//
-//                            etPwdOne.setText("");
-//                            etPwdTwo.setText("");
-//                            etPwdThree.setText("");
-//                            etPwdFour.setText("");
                         }
                         break;
                     default:

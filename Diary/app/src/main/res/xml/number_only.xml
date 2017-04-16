@@ -40,13 +40,14 @@
     </Row>
     <Row>
         <Key
-            android:codes="-2"
-            android:keyLabel="" />
+            android:codes="2"
+            android:keyLabel="." />
         <Key
             android:codes="48"
             android:keyLabel="0" />
         <Key
-            android:codes="-5"
+            android:codes="5"
+            android:keyLabel="*"
             />
     </Row>
 
