@@ -26,7 +26,7 @@ public class KeyboardUtil {
 				.findViewById(R.id.keyboard_view);
 		keyboardView.setKeyboard(kb_num_only);
 		keyboardView.setEnabled(true);
-		keyboardView.setPreviewEnabled(true);
+		keyboardView.setPreviewEnabled(false);
 		keyboardView.setOnKeyboardActionListener(listener);
 	}
 
@@ -63,7 +63,7 @@ public class KeyboardUtil {
 		public void onKey(int primaryCode, int[] keyCodes) {
 			if (primaryCode == -2) {
 				return;
-			} else if (primaryCode == Keyboard.KEYCODE_DELETE) {// 回退
+			} else if (primaryCode == 5) {// 回退
 				// 删除按钮所做的动作
 				if (thisPwdText != null && thisPwdText.length() >= 1) {
 					thisPwdText = thisPwdText.substring(0,
@@ -74,7 +74,11 @@ public class KeyboardUtil {
 						listEd.get(len).setText("");
 					}
 				}
-			} else {
+			}
+			else if(primaryCode == 2){
+
+			}
+			else {
 				thisPwdText = thisPwdText + (char) primaryCode;
 				System.out.println("thisPwdText=" + thisPwdText);
 				int len = thisPwdText.length();
