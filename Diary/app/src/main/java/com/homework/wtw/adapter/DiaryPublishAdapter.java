@@ -29,7 +29,8 @@ public class DiaryPublishAdapter extends BaseAdapter {
     public DiaryPublishAdapter(Context context, ArrayList<String> listUrls) {
         this.context = context;
         this.listUrls = listUrls;
-        if(listUrls.size() == 10){
+//        if(listUrls.size() == 10){
+        if(listUrls.size() == 2){
             listUrls.remove(listUrls.size()-1);
         }
         Log.i(TAG,"listUrls.size="+listUrls.size());
@@ -39,7 +40,8 @@ public class DiaryPublishAdapter extends BaseAdapter {
     @Override
     public int getCount() {
         int total = listUrls.size();
-        if (total < 9)
+//        if (total < 9)
+        if (total < 1)
             total++;
         return total;
 
@@ -67,7 +69,8 @@ public class DiaryPublishAdapter extends BaseAdapter {
         convertView = inflater.inflate(R.layout.item_diary_gridview_image, null);
         ImageView sdv_image = (ImageView) convertView.findViewById(R.id.sdv_image);
 
-        if (position == listUrls.size() && listUrls.size() < 9) {
+//        if (position == listUrls.size() && listUrls.size() < 9) {
+        if (position == listUrls.size() && listUrls.size() < 1) {
             sdv_image.setImageDrawable(context.getResources().getDrawable(R.drawable.icon_add_picture));
         } else {
             Glide.with(context)
